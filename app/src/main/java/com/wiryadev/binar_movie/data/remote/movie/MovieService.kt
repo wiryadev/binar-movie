@@ -1,6 +1,6 @@
-package com.wiryadev.binar_movie.data.remote
+package com.wiryadev.binar_movie.data.remote.movie
 
-import com.wiryadev.binar_movie.data.remote.dto.ListMovieResponse
+import com.wiryadev.binar_movie.data.remote.movie.dto.ListMovieResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

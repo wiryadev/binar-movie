@@ -1,7 +1,8 @@
 package com.wiryadev.binar_movie.di
 
 import com.wiryadev.binar_movie.BuildConfig
-import com.wiryadev.binar_movie.data.remote.MovieService
+import com.wiryadev.binar_movie.data.remote.movie.MovieService
+import com.wiryadev.binar_movie.data.remote.tv.TvService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -52,6 +53,12 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideMovieService(retrofit: Retrofit): MovieService {
+        return retrofit.create()
+    }
+
+    @Singleton
+    @Provides
+    fun provideTvService(retrofit: Retrofit): TvService {
         return retrofit.create()
     }
 

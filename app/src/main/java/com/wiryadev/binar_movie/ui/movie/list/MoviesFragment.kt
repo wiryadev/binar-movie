@@ -1,4 +1,4 @@
-package com.wiryadev.binar_movie.ui.movie
+package com.wiryadev.binar_movie.ui.movie.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -50,6 +50,7 @@ class MoviesFragment : Fragment() {
                 progressBar.isVisible = loadState.source.refresh is LoadState.Loading
             }
         }
+
         viewModel.movies.observe(viewLifecycleOwner) {
             moviesAdapter.submitData(lifecycle, it)
         }

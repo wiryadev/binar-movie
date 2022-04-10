@@ -1,15 +1,15 @@
-package com.wiryadev.binar_movie.ui.movie
+package com.wiryadev.binar_movie.ui.movie.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.wiryadev.binar_movie.BuildConfig
-import com.wiryadev.binar_movie.data.remote.dto.MovieDto
+import com.wiryadev.binar_movie.R
+import com.wiryadev.binar_movie.data.remote.movie.dto.MovieDto
 import com.wiryadev.binar_movie.databinding.ItemListBinding
 import com.wiryadev.binar_movie.ui.createImagePlaceholderDrawable
 import com.wiryadev.binar_movie.ui.dpToPx
@@ -28,6 +28,7 @@ class MoviesAdapter : PagingDataAdapter<MovieDto, MoviesAdapter.MovieViewHolder>
                 ivPoster.load("${BuildConfig.BASE_IMAGE_URL}${data.posterPath}") {
                     transformations(RoundedCornersTransformation(dpToPx(16)))
                     placeholder(circularProgressDrawable)
+                    error(R.drawable.ic_baseline_broken_image_24)
                 }
                 tvTitle.text = data.title
                 tvDate.text = data.releaseDate

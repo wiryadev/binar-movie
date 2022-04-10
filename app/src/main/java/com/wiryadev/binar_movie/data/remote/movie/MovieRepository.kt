@@ -1,9 +1,8 @@
-package com.wiryadev.binar_movie.data
+package com.wiryadev.binar_movie.data.remote.movie
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
-import com.wiryadev.binar_movie.data.remote.dto.MovieDto
-import kotlinx.coroutines.flow.Flow
+import com.wiryadev.binar_movie.data.remote.movie.dto.MovieDto
 
 interface MovieRepository {
 

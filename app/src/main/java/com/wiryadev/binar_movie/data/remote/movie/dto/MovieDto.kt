@@ -1,4 +1,4 @@
-package com.wiryadev.binar_movie.data.remote.dto
+package com.wiryadev.binar_movie.data.remote.movie.dto
 
 
 import com.squareup.moshi.Json
@@ -23,7 +23,7 @@ data class MovieDto(
     @Json(name = "popularity")
     val popularity: Double,
     @Json(name = "poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @Json(name = "release_date")
     val releaseDate: String,
     @Json(name = "title")

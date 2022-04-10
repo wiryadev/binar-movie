@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_movies"
-        android:name="com.wiryadev.binar_movie.ui.movie.MoviesFragment"
+        android:name="com.wiryadev.binar_movie.ui.movie.list.MoviesFragment"
         android:label="@string/movies"
         tools:layout="@layout/fragment_movies" />
 
     <fragment
         android:id="@+id/navigation_tv"
-        android:name="com.wiryadev.binar_movie.ui.tv.TvShowsFragment"
+        android:name="com.wiryadev.binar_movie.ui.tv.list.TvShowsFragment"
         android:label="@string/tv_shows"
         tools:layout="@layout/fragment_tv_shows" />
 
