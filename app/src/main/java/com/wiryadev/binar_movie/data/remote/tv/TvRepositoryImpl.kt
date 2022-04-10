@@ -5,7 +5,13 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
+import com.wiryadev.binar_movie.data.remote.Result
+import com.wiryadev.binar_movie.data.remote.tv.dto.DetailTvResponse
 import com.wiryadev.binar_movie.data.remote.tv.dto.TvDto
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class TvRepositoryImpl @Inject constructor(
@@ -21,6 +27,17 @@ class TvRepositoryImpl @Inject constructor(
                 TvPagingSource(tvService = tvService)
             }
         ).liveData
+    }
+
+    override fun getTvShowDetail(tvId: Int): Flow<Result<DetailTvResponse>> {
+        return flow {
+            try {
+                val response = tvService.getTvDetail(tvId = tvId)
+                emit(Result.Success(data = response))
+            } catch (e: Exception) {
+                emit(Result.Error(exception = e))
+            }
+        }.flowOn(Dispatchers.IO)
     }
 }
 

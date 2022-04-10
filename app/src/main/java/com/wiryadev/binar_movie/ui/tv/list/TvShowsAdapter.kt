@@ -14,9 +14,11 @@ import com.wiryadev.binar_movie.databinding.ItemListBinding
 import com.wiryadev.binar_movie.ui.createImagePlaceholderDrawable
 import com.wiryadev.binar_movie.ui.dpToPx
 
-class TvShowsAdapter : PagingDataAdapter<TvDto, TvShowsAdapter.TvViewHolder>(DIFF_CALLBACK) {
+class TvShowsAdapter(
+    private val onItemClick: (Int) -> Unit,
+) : PagingDataAdapter<TvDto, TvShowsAdapter.TvViewHolder>(DIFF_CALLBACK) {
 
-    class TvViewHolder(
+    inner class TvViewHolder(
         private val binding: ItemListBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: TvDto) {
@@ -33,6 +35,10 @@ class TvShowsAdapter : PagingDataAdapter<TvDto, TvShowsAdapter.TvViewHolder>(DIF
                 tvTitle.text = data.name
                 tvDate.text = data.firstAirDate
                 tvRating.text = data.voteAverage.toString()
+
+                root.setOnClickListener {
+                    onItemClick.invoke(data.id)
+                }
             }
         }
     }

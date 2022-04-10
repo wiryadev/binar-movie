@@ -1,4 +1,4 @@
-package com.wiryadev.binar_movie.ui.movie.detail
+package com.wiryadev.binar_movie.ui.tv.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,13 +18,13 @@ import com.wiryadev.binar_movie.ui.dpToPx
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailMovieFragment : Fragment() {
+class DetailTvFragment : Fragment() {
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val args: DetailMovieFragmentArgs by navArgs()
-    private val viewModel: DetailMovieViewModel by viewModels()
+    private val args: DetailTvFragmentArgs by navArgs()
+    private val viewModel: DetailTvViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,28 +36,28 @@ class DetailMovieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getDetail(args.movieId)
+        viewModel.getDetail(args.tvId)
 
         with(binding) {
             viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
                 progressBar.isVisible = uiState.isLoading
-                uiState.movie?.let { movie ->
-                    tvLabelDate.text = "Release Date"
-                    (requireActivity() as MainActivity).supportActionBar?.title = movie.title
-                    ivDetailPoster.load("${BuildConfig.BASE_IMAGE_URL}${movie.posterPath}") {
+                uiState.movie?.let { tv ->
+                    tvLabelDate.text = "First Air Date"
+                    (requireActivity() as MainActivity).supportActionBar?.title = tv.name
+                    ivDetailPoster.load("${BuildConfig.BASE_IMAGE_URL}${tv.posterPath}") {
                         transformations(RoundedCornersTransformation(dpToPx(16)))
                         placeholder(createImagePlaceholderDrawable(requireContext()))
                     }
-                    tvDetailScore.text = movie.voteAverage.toString()
-                    tvDetailTitle.text = movie.title
+                    tvDetailScore.text = tv.voteAverage.toString()
+                    tvDetailTitle.text = tv.name
                     val genres = mutableListOf<String>()
-                    for (genre in movie.genres) {
+                    for (genre in tv.genres) {
                         genres.add(genre.name)
                     }
                     tvDetailGenre.text = genres.joinToString(separator = ", ")
-                    tvDetailTagline.text = movie.tagline
-                    tvDetailOverview.text = movie.overview
-                    tvDetailDate.text = movie.releaseDate
+                    tvDetailTagline.text = tv.tagline
+                    tvDetailOverview.text = tv.overview
+                    tvDetailDate.text = tv.firstAirDate
                 }
             }
         }
