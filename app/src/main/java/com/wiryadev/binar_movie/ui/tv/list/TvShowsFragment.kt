@@ -18,9 +18,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class TvShowsFragment : Fragment() {
 
     private var _binding: FragmentTvShowsBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private val viewModel: TvShowsViewModel by viewModels()

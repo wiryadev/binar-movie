@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wiryadev.binar_movie.databinding.FragmentMoviesBinding
@@ -34,7 +35,12 @@ class MoviesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val moviesAdapter = MoviesAdapter()
+        val moviesAdapter = MoviesAdapter {
+            findNavController().navigate(
+                MoviesFragmentDirections.actionNavigationMoviesToNavigationDetailMovie(movieId = it)
+            )
+        }
+
         with(binding) {
             rvMovies.apply {
                 adapter = moviesAdapter.withLoadStateFooter(

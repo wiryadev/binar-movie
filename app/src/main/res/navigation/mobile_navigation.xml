@@ -9,7 +9,11 @@
         android:id="@+id/navigation_movies"
         android:name="com.wiryadev.binar_movie.ui.movie.list.MoviesFragment"
         android:label="@string/movies"
-        tools:layout="@layout/fragment_movies" />
+        tools:layout="@layout/fragment_movies" >
+        <action
+            android:id="@+id/action_navigation_movies_to_navigation_detail_movie"
+            app:destination="@id/navigation_detail_movie" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_tv"
@@ -22,4 +26,15 @@
         android:name="com.wiryadev.binar_movie.ui.profile.ProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/navigation_detail_movie"
+        android:name="com.wiryadev.binar_movie.ui.movie.detail.DetailMovieFragment"
+        android:label="@string/movies"
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="movieId"
+            app:argType="integer" />
+    </fragment>
+
 </navigation>
