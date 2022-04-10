@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">binar-movie</string>
+    <string name="movies">Movies</string>
+    <string name="tv_shows">TV Shows</string>
+    <string name="profile">Profile</string>
+    <string name="poster">Poster</string>
+</resources>
