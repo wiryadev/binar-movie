@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.wiryadev.binar_movie.data.remote.tv.TvRepository
+import com.wiryadev.binar_movie.data.repositories.tv.TvRepository
 import com.wiryadev.binar_movie.data.remote.tv.dto.TvDto
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

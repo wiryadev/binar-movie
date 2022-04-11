@@ -1,4 +1,4 @@
-package com.wiryadev.binar_movie.data.remote.tv
+package com.wiryadev.binar_movie.data.repositories.tv
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingData

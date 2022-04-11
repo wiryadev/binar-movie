@@ -1,9 +1,9 @@
 package com.wiryadev.binar_movie.di
 
-import com.wiryadev.binar_movie.data.remote.movie.MovieRepository
-import com.wiryadev.binar_movie.data.remote.movie.MovieRepositoryImpl
-import com.wiryadev.binar_movie.data.remote.tv.TvRepository
-import com.wiryadev.binar_movie.data.remote.tv.TvRepositoryImpl
+import com.wiryadev.binar_movie.data.repositories.movie.MovieRepository
+import com.wiryadev.binar_movie.data.repositories.movie.MovieRepositoryImpl
+import com.wiryadev.binar_movie.data.repositories.tv.TvRepository
+import com.wiryadev.binar_movie.data.repositories.tv.TvRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

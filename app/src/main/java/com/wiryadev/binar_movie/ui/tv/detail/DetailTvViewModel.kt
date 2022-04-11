@@ -2,8 +2,7 @@ package com.wiryadev.binar_movie.ui.tv.detail
 
 import androidx.lifecycle.*
 import com.wiryadev.binar_movie.data.remote.Result
-import com.wiryadev.binar_movie.data.remote.movie.dto.DetailMovieResponse
-import com.wiryadev.binar_movie.data.remote.tv.TvRepository
+import com.wiryadev.binar_movie.data.repositories.tv.TvRepository
 import com.wiryadev.binar_movie.data.remote.tv.dto.DetailTvResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

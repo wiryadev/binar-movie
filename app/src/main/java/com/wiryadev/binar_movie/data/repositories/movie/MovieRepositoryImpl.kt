@@ -1,4 +1,4 @@
-package com.wiryadev.binar_movie.data.remote.tv
+package com.wiryadev.binar_movie.data.repositories.movie
 
 import androidx.lifecycle.LiveData
 import androidx.paging.Pager
@@ -6,39 +6,42 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.wiryadev.binar_movie.data.remote.Result
-import com.wiryadev.binar_movie.data.remote.tv.dto.DetailTvResponse
-import com.wiryadev.binar_movie.data.remote.tv.dto.TvDto
+import com.wiryadev.binar_movie.data.remote.movie.MovieService
+import com.wiryadev.binar_movie.data.remote.movie.MoviesPagingSource
+import com.wiryadev.binar_movie.data.remote.movie.dto.DetailMovieResponse
+import com.wiryadev.binar_movie.data.remote.movie.dto.MovieDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class TvRepositoryImpl @Inject constructor(
-    private val tvService: TvService
-) : TvRepository {
+class MovieRepositoryImpl @Inject constructor(
+    private val movieService: MovieService
+) : MovieRepository {
 
-    override fun discoverTvShows(): LiveData<PagingData<TvDto>> {
+    override fun discoverMovies(): LiveData<PagingData<MovieDto>> {
         return Pager(
             config = PagingConfig(
                 pageSize = PAGING_PAGE_SIZE
             ),
             pagingSourceFactory = {
-                TvPagingSource(tvService = tvService)
+                MoviesPagingSource(movieService = movieService)
             }
         ).liveData
     }
 
-    override fun getTvShowDetail(tvId: Int): Flow<Result<DetailTvResponse>> {
+    override fun getMovieDetail(movieId: Int): Flow<Result<DetailMovieResponse>> {
         return flow {
             try {
-                val response = tvService.getTvDetail(tvId = tvId)
+                val response = movieService.getMovieDetail(movieId = movieId)
                 emit(Result.Success(data = response))
             } catch (e: Exception) {
                 emit(Result.Error(exception = e))
             }
         }.flowOn(Dispatchers.IO)
     }
+
 }
 
 private const val PAGING_PAGE_SIZE = 20
