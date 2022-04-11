@@ -7,4 +7,6 @@
     <string name="retry">Retry</string>
     <string name="banner">Banner</string>
     <string name="genre">Genre</string>
+    <string name="release_date">Release Date</string>
+    <string name="first_air_date">First Air Date</string>
 </resources>
