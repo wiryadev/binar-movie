@@ -40,7 +40,9 @@
     <string name="hi_username">Hi, %s</string>
     <string name="empty_note">Empty Note</string>
     <string name="empty_note_caption">So empty here, \n Lets create some notes!</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="full_name">Full Name</string>
+    <string name="address">Address</string>
+    <string name="birth_date">Birth Date</string>
+    <string name="log_out">Log Out</string>
 
 </resources>
