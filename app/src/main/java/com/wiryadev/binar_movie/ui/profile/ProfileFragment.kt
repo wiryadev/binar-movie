@@ -10,10 +10,12 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.wiryadev.binar_movie.R
 import com.wiryadev.binar_movie.data.local.entity.UserEntity
 import com.wiryadev.binar_movie.databinding.FragmentProfileBinding
 import com.wiryadev.binar_movie.ui.auth.AuthActivity
 import com.wiryadev.binar_movie.ui.formatDisplayDate
+import com.wiryadev.binar_movie.ui.showSnackbar
 import com.wiryadev.binar_movie.ui.simpleDateFormat
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -54,10 +56,14 @@ class ProfileFragment : Fragment() {
 
         with(binding) {
             viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
+                if (uiState.result > 0) {
+                    root.showSnackbar(getString(R.string.update_success))
+                }
+
                 uiState.user?.let { user ->
                     etUsername.setText(user.username)
                     etFullName.setText(user.fullName ?: "")
-                    etBirthDate.setText(user.birthDate ?: "")
+                    etBirthDate.setText(user.birthDate?.formatDisplayDate() ?: "")
                     etAddress.setText(user.address ?: "")
                     handleUpdate(user = user)
                 }
@@ -76,7 +82,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun handleUpdate(user: UserEntity) {
-        var dateForDatabase = ""
+        var dateForDatabase = user.birthDate ?: ""
 
         with(binding) {
             etBirthDate.isEnabled = true

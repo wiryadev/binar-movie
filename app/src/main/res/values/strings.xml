@@ -21,9 +21,7 @@
     <string name="add_new_note">Add New Note</string>
     <string name="update_note">Update Note</string>
     <string name="delete_note">Delete Note</string>
-    <string name="create_note_success">Note created successfully</string>
-    <string name="update_note_success">Note updated successfully</string>
-    <string name="delete_note_success">Note deleted successfully</string>
+    <string name="update_success">Data updated successfully</string>
     <string name="logout">Logout</string>
     <string name="home">Home</string>
     <string name="delete_this_note">Delete this note</string>
