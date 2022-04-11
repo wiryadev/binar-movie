@@ -1,14 +1,14 @@
-package com.wiryadev.binar_movie
+package com.wiryadev.binar_movie.ui
 
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.wiryadev.binar_movie.R
 import com.wiryadev.binar_movie.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 

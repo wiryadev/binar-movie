@@ -13,7 +13,7 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.wiryadev.binar_movie.BuildConfig
-import com.wiryadev.binar_movie.MainActivity
+import com.wiryadev.binar_movie.ui.MainActivity
 import com.wiryadev.binar_movie.R
 import com.wiryadev.binar_movie.databinding.FragmentDetailBinding
 import com.wiryadev.binar_movie.ui.createImagePlaceholderDrawable
