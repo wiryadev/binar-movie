@@ -28,11 +28,11 @@ data class UserEntity(
     val password: String,
 
     @ColumnInfo(name = "full_name")
-    val fullName: String? = null,
+    var fullName: String? = null,
 
-    @ColumnInfo(name = "date")
-    val date: String? = null,
+    @ColumnInfo(name = "birth_date")
+    var birthDate: String? = null,
 
     @ColumnInfo(name = "address")
-    val address: String? = null,
+    var address: String? = null,
 )

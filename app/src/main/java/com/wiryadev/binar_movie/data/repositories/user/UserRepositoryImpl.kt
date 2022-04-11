@@ -4,7 +4,10 @@ import com.wiryadev.binar_movie.data.local.db.UserDao
 import com.wiryadev.binar_movie.data.local.entity.UserEntity
 import com.wiryadev.binar_movie.data.preference.AuthModel
 import com.wiryadev.binar_movie.data.preference.AuthPreference
+import com.wiryadev.binar_movie.data.remote.Result
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -39,8 +42,19 @@ class UserRepositoryImpl @Inject constructor(
         preference.deleteUserSession()
     }
 
-    override suspend fun updateUser(user: UserEntity): Int {
-        return userDao.updateUser(user = user)
+    override fun getUser(email: String): Flow<UserEntity> {
+        return userDao.getUser(email = email)
+    }
+
+    override suspend fun updateUser(user: UserEntity): Result<Int> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val result = userDao.updateUser(user = user)
+                Result.Success(result)
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+        }
     }
 
 }

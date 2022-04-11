@@ -16,6 +16,9 @@ interface UserDao {
     @Query("SELECT EXISTS (SELECT 1 FROM tableUser WHERE email=:email)")
     fun checkUserExist(email: String): Int
 
+    @Query("SELECT * FROM tableUser WHERE email=:email LIMIT 1")
+    fun getUser(email: String): Flow<UserEntity>
+
     @Update
     suspend fun updateUser(user: UserEntity): Int
 

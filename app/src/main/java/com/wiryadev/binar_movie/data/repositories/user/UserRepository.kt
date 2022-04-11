@@ -2,6 +2,7 @@ package com.wiryadev.binar_movie.data.repositories.user
 
 import com.wiryadev.binar_movie.data.local.entity.UserEntity
 import com.wiryadev.binar_movie.data.preference.AuthModel
+import com.wiryadev.binar_movie.data.remote.Result
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
@@ -18,6 +19,8 @@ interface UserRepository {
 
     suspend fun deleteUserSession()
 
-    suspend fun updateUser(user: UserEntity): Int
+    fun getUser(email: String): Flow<UserEntity>
+
+    suspend fun updateUser(user: UserEntity): Result<Int>
 
 }

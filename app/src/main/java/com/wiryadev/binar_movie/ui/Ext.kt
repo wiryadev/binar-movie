@@ -9,6 +9,9 @@ import androidx.core.widget.addTextChangedListener
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun createImagePlaceholderDrawable(context: Context): CircularProgressDrawable {
     return CircularProgressDrawable(context).apply {
@@ -49,4 +52,11 @@ inline fun EditText.addErrorListener(
             }
         },
     )
+}
+
+val simpleDateFormat = SimpleDateFormat("MM/dd/yyyy", Locale.ROOT)
+
+fun String.formatDisplayDate(): String {
+    val dateFormatToBeDisplayed = simpleDateFormat.parse(this) as Date
+    return DateFormat.getDateInstance(DateFormat.FULL).format(dateFormatToBeDisplayed)
 }
