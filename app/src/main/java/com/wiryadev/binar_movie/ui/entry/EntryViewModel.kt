@@ -1,6 +1,5 @@
 package com.wiryadev.binar_movie.ui.entry
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,7 +25,6 @@ class EntryViewModel @Inject constructor(
     private fun getUser() {
         viewModelScope.launch {
             userRepository.getUserSession().collectLatest { user ->
-                Log.d("LoginState", "onCreate: ${user.email}")
                 _isLoggedIn.value = user.email.isNotBlank()
             }
         }

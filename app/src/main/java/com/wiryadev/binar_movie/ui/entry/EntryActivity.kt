@@ -2,10 +2,9 @@ package com.wiryadev.binar_movie.ui.entry
 
 import android.content.Intent
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.wiryadev.binar_movie.R
@@ -26,10 +25,8 @@ class EntryActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.statusBarColor = Color.TRANSPARENT
         window.navigationBarColor = Color.TRANSPARENT
-        Log.d("LoginState", "onCreate: executed")
 
         viewModel.isLoggedIn.observe(this) { isLoggedIn ->
-            Log.d("LoginState", "onCreate: $isLoggedIn")
             startActivity(
                 Intent(
                     this,
