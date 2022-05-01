@@ -42,5 +42,6 @@
     <string name="address">Address</string>
     <string name="birth_date">Birth Date</string>
     <string name="log_out">Log Out</string>
+    <string name="profile_picture">Profile Picture</string>
 
 </resources>
