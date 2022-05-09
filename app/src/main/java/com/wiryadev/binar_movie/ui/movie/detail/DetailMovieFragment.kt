@@ -2,6 +2,7 @@ package com.wiryadev.binar_movie.ui.movie.detail
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +14,10 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.wiryadev.binar_movie.BuildConfig
-import com.wiryadev.binar_movie.ui.MainActivity
 import com.wiryadev.binar_movie.R
+import com.wiryadev.binar_movie.data.remote.movie.dto.DetailMovieResponse
 import com.wiryadev.binar_movie.databinding.FragmentDetailBinding
+import com.wiryadev.binar_movie.ui.MainActivity
 import com.wiryadev.binar_movie.ui.createImagePlaceholderDrawable
 import com.wiryadev.binar_movie.ui.dpToPx
 import com.wiryadev.binar_movie.ui.showSnackbar
@@ -29,6 +31,8 @@ class DetailMovieFragment : Fragment() {
 
     private val args: DetailMovieFragmentArgs by navArgs()
     private val viewModel: DetailMovieViewModel by viewModels()
+
+    private var movieDetail: DetailMovieResponse? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -58,6 +62,7 @@ class DetailMovieFragment : Fragment() {
                 }
 
                 uiState.movie?.let { movie ->
+                    movieDetail = movie
                     tvLabelDate.text = getString(R.string.release_date)
                     (requireActivity() as MainActivity).supportActionBar?.title = movie.originalTitle
 
@@ -77,6 +82,10 @@ class DetailMovieFragment : Fragment() {
                     tvDetailDate.text = movie.releaseDate
                 }
             }
+
+            viewModel.checkIsFavorite(args.movieId).observe(viewLifecycleOwner) {
+                setButtonState(it > 0)
+            }
         }
     }
 
@@ -85,4 +94,23 @@ class DetailMovieFragment : Fragment() {
         _binding = null
     }
 
+    private fun setButtonState(isFavorite: Boolean) {
+        Log.d(TAG, "setButtonState: $isFavorite")
+        binding.btnFav.apply {
+            if (isFavorite) {
+                setOnClickListener {
+                    movieDetail?.let { movie -> viewModel.deleteFavoriteMovie(movie) }
+                }
+                setImageResource(R.drawable.ic_round_bookmark_added_24)
+            } else {
+                setOnClickListener {
+                    movieDetail?.let { movie -> viewModel.addFavoriteMovie(movie) }
+                }
+                setImageResource(R.drawable.ic_round_bookmark_border_24)
+            }
+        }
+    }
+
 }
+
+private const val TAG = "DetailMovie"

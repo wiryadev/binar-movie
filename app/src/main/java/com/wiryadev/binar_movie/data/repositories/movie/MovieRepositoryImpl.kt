@@ -45,8 +45,8 @@ class MovieRepositoryImpl @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
-    override fun getFavoriteMovies(email: String): Flow<List<MovieEntity>> {
-        return favoriteDao.getFavoriteMovies(email)
+    override fun getFavoriteMovies(): Flow<List<MovieEntity>> {
+        return favoriteDao.getFavoriteMovies()
     }
 
     override fun checkFavoriteMovie(id: Int): Flow<Int> {

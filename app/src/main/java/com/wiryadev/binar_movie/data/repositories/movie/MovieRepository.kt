@@ -14,7 +14,7 @@ interface MovieRepository {
 
     fun getMovieDetail(movieId: Int): Flow<Result<DetailMovieResponse>>
 
-    fun getFavoriteMovies(email: String): Flow<List<MovieEntity>>
+    fun getFavoriteMovies(): Flow<List<MovieEntity>>
 
     fun checkFavoriteMovie(id: Int): Flow<Int>
 

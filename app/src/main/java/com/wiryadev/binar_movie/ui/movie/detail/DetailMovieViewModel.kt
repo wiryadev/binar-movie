@@ -1,9 +1,14 @@
 package com.wiryadev.binar_movie.ui.movie.detail
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.wiryadev.binar_movie.data.local.entity.MovieEntity
 import com.wiryadev.binar_movie.data.remote.Result
-import com.wiryadev.binar_movie.data.repositories.movie.MovieRepository
 import com.wiryadev.binar_movie.data.remote.movie.dto.DetailMovieResponse
+import com.wiryadev.binar_movie.data.remote.movie.dto.MovieDto
+import com.wiryadev.binar_movie.data.repositories.movie.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -43,6 +48,29 @@ class DetailMovieViewModel @Inject constructor(
             }
         }
     }
+
+    fun checkIsFavorite(id: Int) = movieRepository.checkFavoriteMovie(id = id).asLiveData()
+
+    fun addFavoriteMovie(movie: DetailMovieResponse) = viewModelScope.launch {
+        movieRepository.addFavoriteMovie(
+            movie = MovieEntity(
+                movieId = movie.id,
+                title = movie.title,
+                posterPath = movie.posterPath,
+            )
+        )
+    }
+
+    fun deleteFavoriteMovie(movie: DetailMovieResponse) = viewModelScope.launch {
+        movieRepository.deleteFavoriteMovie(
+            movie = MovieEntity(
+                movieId = movie.id,
+                title = movie.title,
+                posterPath = movie.posterPath,
+            )
+        )
+    }
+
 }
 
 data class DetailMovieUiState(

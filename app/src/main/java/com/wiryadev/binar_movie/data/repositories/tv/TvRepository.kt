@@ -14,7 +14,7 @@ interface TvRepository {
 
     fun getTvShowDetail(tvId: Int): Flow<Result<DetailTvResponse>>
 
-    fun getFavoriteTvs(email: String): Flow<List<TvEntity>>
+    fun getFavoriteTvs(): Flow<List<TvEntity>>
 
     fun checkFavoriteTv(id: Int): Flow<Int>
 

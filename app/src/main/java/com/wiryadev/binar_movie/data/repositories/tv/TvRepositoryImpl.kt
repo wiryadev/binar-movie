@@ -45,8 +45,8 @@ class TvRepositoryImpl @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
-    override fun getFavoriteTvs(email: String): Flow<List<TvEntity>> {
-        return favoriteDao.getFavoriteTvs(email = email)
+    override fun getFavoriteTvs(): Flow<List<TvEntity>> {
+        return favoriteDao.getFavoriteTvs()
     }
 
     override fun checkFavoriteTv(id: Int): Flow<Int> {

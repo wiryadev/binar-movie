@@ -6,19 +6,13 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "tableTv")
 data class TvEntity(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    val id: Int = 0,
-
+    @PrimaryKey
     @ColumnInfo(name = "tv_id")
-    val tvId: Int = 0,
+    val tvId: Int,
 
     @ColumnInfo(name = "title")
     val title: String,
 
     @ColumnInfo(name = "poster_path")
     val posterPath: String,
-
-    @ColumnInfo(name = "email")
-    val email: String,
 )
