@@ -22,7 +22,7 @@ object DatabaseModule {
         .databaseBuilder(
             appContext,
             BinarMovieDatabase::class.java,
-            "binar_note_db"
+            "binar_movie_db"
         )
         .build()
 

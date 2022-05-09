@@ -13,7 +13,10 @@ interface FavoriteDao {
      * Movie
      */
     @Query("SELECT * FROM tableMovie WHERE email=:email")
-    suspend fun getFavoriteMovies(email: String): Flow<List<MovieEntity>>
+    fun getFavoriteMovies(email: String): Flow<List<MovieEntity>>
+
+    @Query("SELECT EXISTS (SELECT 1 FROM tableMovie WHERE id=:id)")
+    fun checkFavoriteMovie(id: Int): Flow<Int>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun addFavoriteMovie(movie: MovieEntity)
@@ -25,7 +28,10 @@ interface FavoriteDao {
      * TV
      */
     @Query("SELECT * FROM tableTv WHERE email=:email")
-    suspend fun getFavoriteTvs(email: String): Flow<List<MovieEntity>>
+    fun getFavoriteTvs(email: String): Flow<List<TvEntity>>
+
+    @Query("SELECT EXISTS (SELECT 1 FROM tableTv WHERE id=:id)")
+    fun checkFavoriteTv(id: Int): Flow<Int>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun addFavoriteTv(tv: TvEntity)
