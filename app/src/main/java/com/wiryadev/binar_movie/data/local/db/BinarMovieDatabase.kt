@@ -13,5 +13,6 @@ import com.wiryadev.binar_movie.data.local.entity.UserEntity
 abstract class BinarMovieDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
+    abstract fun favoriteDao(): FavoriteDao
 
 }
