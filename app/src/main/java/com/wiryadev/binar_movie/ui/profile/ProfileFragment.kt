@@ -1,6 +1,7 @@
 package com.wiryadev.binar_movie.ui.profile
 
 import android.Manifest
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
@@ -9,13 +10,13 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
+import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -49,7 +50,6 @@ class ProfileFragment : Fragment() {
     ) {
         if (it.resultCode == RESULT_OK) {
             val myFile = File(currentPhotoPath)
-            val result = BitmapFactory.decodeFile(myFile.path)
             viewModel.assignFile(myFile)
         }
     }
@@ -77,7 +77,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.ivProfile.setOnClickListener {
-            chooseImageDialog()
+            checkingPermissions()
         }
 
         viewModel.userSession.observe(viewLifecycleOwner) { user ->
@@ -126,28 +126,6 @@ class ProfileFragment : Fragment() {
         _binding = null
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            if (!allPermissionsGranted()) {
-                Toast.makeText(
-                    context?.applicationContext,
-                    "Tidak mendapatkan permission.",
-                    Toast.LENGTH_SHORT
-                ).show()
-                activity?.finish()
-            }
-        }
-    }
-
-    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
-        ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
-    }
-
     private fun handleUpdate(user: UserEntity) {
         var dateForDatabase = user.birthDate ?: ""
 
@@ -194,6 +172,55 @@ class ProfileFragment : Fragment() {
             .build()
     }
 
+    private fun checkingPermissions() {
+        if (
+            isGranted(
+                requireActivity(),
+                Manifest.permission.CAMERA,
+                REQUIRED_PERMISSIONS,
+                REQUEST_CODE_PERMISSION,
+            )
+        ) {
+            chooseImageDialog()
+        }
+    }
+
+    private fun isGranted(
+        activity: Activity,
+        permission: String,
+        permissions: Array<String>,
+        request: Int,
+    ): Boolean {
+        val permissionCheck = ActivityCompat.checkSelfPermission(activity, permission)
+        return if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
+                showPermissionDeniedDialog()
+            } else {
+                ActivityCompat.requestPermissions(activity, permissions, request)
+            }
+            false
+        } else {
+            true
+        }
+    }
+
+    private fun showPermissionDeniedDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Permission Denied")
+            .setMessage("Permission is denied, Please allow permissions from App Settings.")
+            .setPositiveButton(
+                "App Settings"
+            ) { _, _ ->
+                val intent = Intent()
+                intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                val uri = Uri.fromParts("package", requireActivity().packageName, null)
+                intent.data = uri
+                startActivity(intent)
+            }
+            .setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+            .show()
+    }
+
     private fun chooseImageDialog() {
         AlertDialog.Builder(requireContext())
             .setMessage("Pilih Gambar")
@@ -201,7 +228,6 @@ class ProfileFragment : Fragment() {
             .setNegativeButton("Camera") { _, _ -> startTakePhoto() }
             .show()
     }
-
 
     private fun startTakePhoto() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -229,5 +255,9 @@ class ProfileFragment : Fragment() {
 
 }
 
-private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
-private const val REQUEST_CODE_PERMISSIONS = 10
+private val REQUIRED_PERMISSIONS = arrayOf(
+    Manifest.permission.CAMERA,
+    Manifest.permission.READ_EXTERNAL_STORAGE,
+    Manifest.permission.WRITE_EXTERNAL_STORAGE
+)
+private const val REQUEST_CODE_PERMISSION = 100
