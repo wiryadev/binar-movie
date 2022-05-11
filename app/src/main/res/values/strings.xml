@@ -44,5 +44,6 @@
     <string name="log_out">Log Out</string>
     <string name="favorite_button">Favorite Button</string>
     <string name="go_to_favorite_movie">Go To Favorite Movie</string>
+    <string name="profile_picture">Profile Picture</string>
 
 </resources>

@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import com.wiryadev.binar_movie.data.remote.Result
 import kotlinx.coroutines.flow.collectLatest
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -74,11 +75,18 @@ class ProfileViewModel @Inject constructor(
             }
         }
     }
+
+    fun assignFile(file: File) {
+        _uiState.update {
+            it.copy(file = file)
+        }
+    }
 }
 
 data class ProfileUiState(
     val isLoading: Boolean = false,
     val user: UserEntity? = null,
+    val file: File? = null,
     val result: Int = 0,
     val errorMessage: String? = null,
 )
