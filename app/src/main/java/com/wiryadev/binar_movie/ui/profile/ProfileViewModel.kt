@@ -1,5 +1,6 @@
 package com.wiryadev.binar_movie.ui.profile
 
+import android.net.Uri
 import androidx.lifecycle.*
 import com.wiryadev.binar_movie.data.local.entity.UserEntity
 import com.wiryadev.binar_movie.data.preference.AuthModel
@@ -76,9 +77,9 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun assignFile(file: File) {
+    fun updateUri(uri: Uri) {
         _uiState.update {
-            it.copy(file = file)
+            it.copy(uri = uri)
         }
     }
 }
@@ -86,7 +87,7 @@ class ProfileViewModel @Inject constructor(
 data class ProfileUiState(
     val isLoading: Boolean = false,
     val user: UserEntity? = null,
-    val file: File? = null,
+    val uri: Uri? = null,
     val result: Int = 0,
     val errorMessage: String? = null,
 )
