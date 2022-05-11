@@ -77,9 +77,9 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun updateUri(uri: Uri) {
+    fun updateProfilePic(picture: String) {
         _uiState.update {
-            it.copy(uri = uri)
+            it.copy(picture = picture)
         }
     }
 }
@@ -87,7 +87,7 @@ class ProfileViewModel @Inject constructor(
 data class ProfileUiState(
     val isLoading: Boolean = false,
     val user: UserEntity? = null,
-    val uri: Uri? = null,
+    val picture: String? = null,
     val result: Int = 0,
     val errorMessage: String? = null,
 )

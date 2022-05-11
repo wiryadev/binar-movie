@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -18,7 +17,6 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import coil.load
@@ -29,8 +27,11 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.wiryadev.binar_movie.R
 import com.wiryadev.binar_movie.data.local.entity.UserEntity
 import com.wiryadev.binar_movie.databinding.FragmentProfileBinding
-import com.wiryadev.binar_movie.ui.*
 import com.wiryadev.binar_movie.ui.auth.AuthActivity
+import com.wiryadev.binar_movie.ui.formatDisplayDate
+import com.wiryadev.binar_movie.ui.savePhotoToExternalStorage
+import com.wiryadev.binar_movie.ui.showSnackbar
+import com.wiryadev.binar_movie.ui.simpleDateFormat
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.util.*
@@ -43,6 +44,7 @@ class ProfileFragment : Fragment() {
 
     private val viewModel: ProfileViewModel by viewModels()
     private var email = ""
+    private var imageUri = ""
 
     private val launcherIntentCamera = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -55,7 +57,7 @@ class ProfileFragment : Fragment() {
                 bitmap
             )
             uri?.let {
-                viewModel.updateUri(it)
+                viewModel.updateProfilePic(it.toString())
             }
         }
     }
@@ -65,7 +67,7 @@ class ProfileFragment : Fragment() {
     ) { result ->
         if (result.resultCode == RESULT_OK) {
             val uri = result.data?.data as Uri
-            viewModel.updateUri(uri)
+            viewModel.updateProfilePic(uri.path.toString())
         }
     }
 
@@ -100,7 +102,8 @@ class ProfileFragment : Fragment() {
 
         with(binding) {
             viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
-                uiState.uri?.let {
+                uiState.picture?.let {
+                    imageUri = it
                     ivProfile.load(it) {
                         transformations(CircleCropTransformation())
                     }
@@ -113,8 +116,17 @@ class ProfileFragment : Fragment() {
                 uiState.user?.let { user ->
                     etUsername.setText(user.username)
                     etFullName.setText(user.fullName ?: "")
-                    etBirthDate.setText(user.birthDate?.formatDisplayDate() ?: "")
+                    user.birthDate?.let {
+                        if (it.isNotEmpty()) etBirthDate.setText(it.formatDisplayDate())
+                    }
                     etAddress.setText(user.address ?: "")
+                    user.profileImage?.let {
+                        ivProfile.load(
+                            Uri.parse(it)
+                        ) {
+                            transformations(CircleCropTransformation())
+                        }
+                    }
                     handleUpdate(user = user)
                 }
             }
@@ -155,6 +167,7 @@ class ProfileFragment : Fragment() {
                     fullName = newFullName
                     birthDate = newBirthDate
                     address = newAddress
+                    profileImage = imageUri
                 }
 
                 viewModel.updateUser(user = user)
