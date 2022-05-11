@@ -42,6 +42,12 @@ class MoviesFragment : Fragment() {
         }
 
         with(binding) {
+            fabFavPage.setOnClickListener {
+                findNavController().navigate(
+                    MoviesFragmentDirections.actionNavigationMoviesToNavigationMovieFavorite()
+                )
+            }
+
             rvMovies.apply {
                 adapter = moviesAdapter.withLoadStateFooter(
                     footer = LoadingStateAdapter {

@@ -13,6 +13,19 @@
         <action
             android:id="@+id/action_navigation_movies_to_navigation_detail_movie"
             app:destination="@id/navigation_detail_movie" />
+        <action
+            android:id="@+id/action_navigation_movies_to_navigation_movie_favorite"
+            app:destination="@id/navigation_movie_favorite" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_movie_favorite"
+        android:name="com.wiryadev.binar_movie.ui.movie.favorite.MovieFavoriteFragment"
+        android:label="@string/movies"
+        tools:layout="@layout/fragment_movie_favorite" >
+        <action
+            android:id="@+id/action_navigation_movie_favorite_to_navigation_detail_movie"
+            app:destination="@id/navigation_detail_movie" />
     </fragment>
 
     <fragment

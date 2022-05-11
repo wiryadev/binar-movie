@@ -22,7 +22,11 @@ class MovieFavoriteViewModel @Inject constructor(
         MutableStateFlow(FavoriteMovieUiState())
     val uiState: LiveData<FavoriteMovieUiState> get() = _uiState.asLiveData()
 
-    fun getFavoriteMovies() {
+    init {
+        getFavoriteMovies()
+    }
+
+    private fun getFavoriteMovies() {
         _uiState.update {
             it.copy(isLoading = true)
         }
