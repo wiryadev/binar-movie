@@ -70,8 +70,19 @@ fun String.formatDisplayDate(): String {
 }
 
 /**
- * Storage camera Util
+ * Storage and camera Util
  */
+private const val FILENAME_FORMAT = "dd-MMM-yyyy"
+
+val timeStamp: String = SimpleDateFormat(
+    FILENAME_FORMAT,
+    Locale.US
+).format(System.currentTimeMillis())
+
+fun createCustomTempFile(context: Context): File {
+    val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    return File.createTempFile(timeStamp, ".jpg", storageDir)
+}
 
 fun savePhotoToExternalStorage(contentResolver : ContentResolver?, name: String, bmp: Bitmap?): Uri? {
     val imageCollection: Uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

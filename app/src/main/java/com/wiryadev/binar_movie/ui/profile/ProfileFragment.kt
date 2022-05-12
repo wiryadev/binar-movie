@@ -5,7 +5,7 @@ import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import coil.load
@@ -26,12 +27,10 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.wiryadev.binar_movie.R
 import com.wiryadev.binar_movie.data.local.entity.UserEntity
 import com.wiryadev.binar_movie.databinding.FragmentProfileBinding
+import com.wiryadev.binar_movie.ui.*
 import com.wiryadev.binar_movie.ui.auth.AuthActivity
-import com.wiryadev.binar_movie.ui.formatDisplayDate
-import com.wiryadev.binar_movie.ui.savePhotoToExternalStorage
-import com.wiryadev.binar_movie.ui.showSnackbar
-import com.wiryadev.binar_movie.ui.simpleDateFormat
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 import java.util.*
 
 
@@ -45,11 +44,14 @@ class ProfileFragment : Fragment() {
     private var email = ""
     private var imageUri = ""
 
+    private lateinit var currentPhotoPath: String
+
     private val launcherIntentCamera = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
-            val bitmap = result?.data?.extras?.get("data") as Bitmap
+            val myFile = File(currentPhotoPath)
+            val bitmap = BitmapFactory.decodeFile(myFile.path)
             val uri = savePhotoToExternalStorage(
                 requireActivity().contentResolver,
                 UUID.randomUUID().toString(),
@@ -250,7 +252,18 @@ class ProfileFragment : Fragment() {
 
     private fun startTakePhoto() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        launcherIntentCamera.launch(intent)
+        intent.resolveActivity(requireActivity().packageManager)
+
+        createCustomTempFile(requireActivity().application).also {
+            val photoURI: Uri = FileProvider.getUriForFile(
+                requireActivity(),
+                "com.wiryadev.binar_movie",
+                it
+            )
+            currentPhotoPath = it.absolutePath
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+            launcherIntentCamera.launch(intent)
+        }
     }
 
     private fun startGallery() {
