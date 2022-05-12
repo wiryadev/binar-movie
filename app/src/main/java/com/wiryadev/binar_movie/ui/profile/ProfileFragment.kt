@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
@@ -33,8 +32,8 @@ import com.wiryadev.binar_movie.ui.savePhotoToExternalStorage
 import com.wiryadev.binar_movie.ui.showSnackbar
 import com.wiryadev.binar_movie.ui.simpleDateFormat
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
 import java.util.*
+
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
@@ -63,11 +62,13 @@ class ProfileFragment : Fragment() {
     }
 
     private val launcherIntentGallery = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            val uri = result.data?.data as Uri
-            viewModel.updateProfilePic(uri.path.toString())
+        ActivityResultContracts.OpenDocument()
+    ) { uri ->
+        uri?.let {
+            requireActivity().contentResolver.takePersistableUriPermission(
+                it, Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
+            viewModel.updateProfilePic(it.toString())
         }
     }
 
@@ -253,11 +254,8 @@ class ProfileFragment : Fragment() {
     }
 
     private fun startGallery() {
-        val intent = Intent()
-        intent.action = ACTION_GET_CONTENT
-        intent.type = "image/*"
-        val chooser = Intent.createChooser(intent, "Choose a Picture")
-        launcherIntentGallery.launch(chooser)
+        requireActivity().intent.type = "image/*"
+        launcherIntentGallery.launch(arrayOf("image/*"))
     }
 
 }
