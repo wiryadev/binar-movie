@@ -124,6 +124,7 @@ class ProfileFragment : Fragment() {
                     }
                     etAddress.setText(user.address ?: "")
                     user.profileImage?.let {
+                        if (it.isNotEmpty() && imageUri.isEmpty()) imageUri = it
                         ivProfile.load(
                             Uri.parse(it)
                         ) {
