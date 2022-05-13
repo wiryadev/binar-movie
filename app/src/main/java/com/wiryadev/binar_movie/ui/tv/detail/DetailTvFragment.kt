@@ -2,6 +2,7 @@ package com.wiryadev.binar_movie.ui.tv.detail
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +14,10 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.wiryadev.binar_movie.BuildConfig
-import com.wiryadev.binar_movie.ui.MainActivity
 import com.wiryadev.binar_movie.R
+import com.wiryadev.binar_movie.data.remote.tv.dto.DetailTvResponse
 import com.wiryadev.binar_movie.databinding.FragmentDetailBinding
+import com.wiryadev.binar_movie.ui.MainActivity
 import com.wiryadev.binar_movie.ui.createImagePlaceholderDrawable
 import com.wiryadev.binar_movie.ui.dpToPx
 import com.wiryadev.binar_movie.ui.showSnackbar
@@ -29,6 +31,8 @@ class DetailTvFragment : Fragment() {
 
     private val args: DetailTvFragmentArgs by navArgs()
     private val viewModel: DetailTvViewModel by viewModels()
+
+    private var tvDetail: DetailTvResponse? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -58,6 +62,7 @@ class DetailTvFragment : Fragment() {
                 }
 
                 uiState.movie?.let { tv ->
+                    tvDetail = tv
                     tvLabelDate.text = getString(R.string.first_air_date)
                     (requireActivity() as MainActivity).supportActionBar?.title = tv.originalName
 
@@ -76,6 +81,10 @@ class DetailTvFragment : Fragment() {
                     tvDetailOverview.text = tv.overview
                     tvDetailDate.text = tv.firstAirDate
                 }
+
+                viewModel.checkIsFavorite(args.tvId).observe(viewLifecycleOwner) {
+                    setButtonState(it > 0)
+                }
             }
         }
     }
@@ -83,6 +92,23 @@ class DetailTvFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setButtonState(isFavorite: Boolean) {
+        Log.d("DetailTv", "setButtonState: $isFavorite")
+        binding.btnFav.apply {
+            if (isFavorite) {
+                setOnClickListener {
+                    tvDetail?.let { movie -> viewModel.deleteFavoriteMovie(movie) }
+                }
+                setImageResource(R.drawable.ic_round_bookmark_added_24)
+            } else {
+                setOnClickListener {
+                    tvDetail?.let { movie -> viewModel.addFavoriteMovie(movie) }
+                }
+                setImageResource(R.drawable.ic_round_bookmark_border_24)
+            }
+        }
     }
 
 }

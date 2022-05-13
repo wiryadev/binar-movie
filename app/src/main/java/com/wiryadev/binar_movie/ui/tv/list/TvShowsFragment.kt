@@ -40,7 +40,14 @@ class TvShowsFragment : Fragment() {
                 TvShowsFragmentDirections.actionNavigationTvToNavigationDetailTv(tvId = it)
             )
         }
+
         with(binding) {
+            fabFavPage.setOnClickListener {
+                findNavController().navigate(
+                    TvShowsFragmentDirections.actionNavigationTvToNavigationTvFavorite()
+                )
+            }
+
             rvTvShows.apply {
                 adapter = tvShowsAdapter.withLoadStateFooter(
                     footer = LoadingStateAdapter {

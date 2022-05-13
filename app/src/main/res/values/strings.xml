@@ -45,5 +45,6 @@
     <string name="favorite_button">Favorite Button</string>
     <string name="go_to_favorite_movie">Go To Favorite Movie</string>
     <string name="profile_picture">Profile Picture</string>
+    <string name="go_to_favorite_tv_shows">Go To Favorite TV Shows</string>
 
 </resources>

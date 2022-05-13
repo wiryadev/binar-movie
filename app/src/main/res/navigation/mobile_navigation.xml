@@ -36,6 +36,19 @@
         <action
             android:id="@+id/action_navigation_tv_to_navigation_detail_tv"
             app:destination="@id/navigation_detail_tv" />
+        <action
+            android:id="@+id/action_navigation_tv_to_navigation_tv_favorite"
+            app:destination="@id/navigation_tv_favorite" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_tv_favorite"
+        android:name="com.wiryadev.binar_movie.ui.tv.favorite.TvFavoriteFragment"
+        android:label="@string/tv_shows"
+        tools:layout="@layout/fragment_tv_favorite" >
+        <action
+            android:id="@+id/action_navigation_tv_favorite_to_navigation_detail_tv"
+            app:destination="@id/navigation_detail_tv" />
     </fragment>
 
     <fragment

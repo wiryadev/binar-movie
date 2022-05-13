@@ -95,7 +95,6 @@ class DetailMovieFragment : Fragment() {
     }
 
     private fun setButtonState(isFavorite: Boolean) {
-        Log.d(TAG, "setButtonState: $isFavorite")
         binding.btnFav.apply {
             if (isFavorite) {
                 setOnClickListener {
