@@ -46,5 +46,7 @@
     <string name="go_to_favorite_movie">Go To Favorite Movie</string>
     <string name="profile_picture">Profile Picture</string>
     <string name="go_to_favorite_tv_shows">Go To Favorite TV Shows</string>
+    <string name="empty_bookmark">Empty Bookmark</string>
+    <string name="your_bookmark_is_empty">Your bookmark is empty</string>
 
 </resources>

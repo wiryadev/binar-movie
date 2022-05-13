@@ -2,7 +2,6 @@ package com.wiryadev.binar_movie.ui.tv.detail
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -95,7 +94,6 @@ class DetailTvFragment : Fragment() {
     }
 
     private fun setButtonState(isFavorite: Boolean) {
-        Log.d("DetailTv", "setButtonState: $isFavorite")
         binding.btnFav.apply {
             if (isFavorite) {
                 setOnClickListener {

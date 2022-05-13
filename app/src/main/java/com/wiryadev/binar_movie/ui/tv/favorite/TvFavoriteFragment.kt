@@ -47,6 +47,10 @@ class TvFavoriteFragment : Fragment() {
         }
 
         viewModel.uiState.observe(viewLifecycleOwner) {
+            binding.layoutEmpty.root.visibility = if (it.tvShows.isEmpty()) {
+                View.VISIBLE
+            } else View.GONE
+
             tvAdapter.submitList(it.tvShows)
         }
     }

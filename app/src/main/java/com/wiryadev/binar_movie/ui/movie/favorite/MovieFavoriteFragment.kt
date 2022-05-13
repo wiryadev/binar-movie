@@ -47,6 +47,10 @@ class MovieFavoriteFragment : Fragment() {
         }
 
         viewModel.uiState.observe(viewLifecycleOwner) {
+            binding.layoutEmpty.root.visibility = if (it.movies.isEmpty()) {
+                View.VISIBLE
+            } else View.GONE
+
             moviesAdapter.submitList(it.movies)
         }
     }
