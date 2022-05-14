@@ -1,10 +1,10 @@
-package com.wiryadev.binar_movie.ui.movie.favorite
+package com.wiryadev.binar_movie.ui.tv.favorite
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import com.wiryadev.binar_movie.data.repositories.movie.MovieRepository
+import com.wiryadev.binar_movie.data.repositories.tv.TvRepository
 import com.wiryadev.binar_movie.utils.MainCoroutineRule
-import com.wiryadev.binar_movie.utils.MovieDataDummy
+import com.wiryadev.binar_movie.utils.TvDataDummy
 import com.wiryadev.binar_movie.utils.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -24,7 +24,7 @@ import org.mockito.kotlin.whenever
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class MovieFavoriteViewModelTest {
+class TvFavoriteViewModelTest {
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
@@ -32,32 +32,32 @@ class MovieFavoriteViewModelTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
-    private val repository: MovieRepository = mock()
-    private lateinit var viewModel: MovieFavoriteViewModel
+    private val repository: TvRepository = mock()
+    private lateinit var viewModel: TvFavoriteViewModel
 
-    private val successUiState = FavoriteMovieUiState(
-        movies = MovieDataDummy.favoriteMovies
+    private val successUiState = FavoriteTvUiState(
+        tvShows = TvDataDummy.favoriteTvs
     )
 
     @Before
     fun setUp() {
-        whenever(repository.getFavoriteMovies())
-            .doReturn(flowOf(MovieDataDummy.favoriteMovies))
-        viewModel = MovieFavoriteViewModel(repository)
+        whenever(repository.getFavoriteTvs())
+            .doReturn(flowOf(TvDataDummy.favoriteTvs))
+        viewModel = TvFavoriteViewModel(repository)
     }
 
     @Test
-    fun `when Get Favorite Movies, should return Success`() = runTest {
-        val expected = MutableLiveData<FavoriteMovieUiState>()
+    fun `when Get Favorite Tv Shows, should return Success`() = runTest {
+        val expected = MutableLiveData<FavoriteTvUiState>()
         expected.value = successUiState
 
         val actual = viewModel.uiState.getOrAwaitValue()
-        verify(repository).getFavoriteMovies()
+        verify(repository).getFavoriteTvs()
 
         actual shouldNotBe null
         actual shouldBeEqualTo expected.value
         actual.errorMessage shouldBe null
-        actual.movies shouldBeEqualTo expected.value!!.movies
+        actual.tvShows shouldBeEqualTo expected.value!!.tvShows
     }
 
 }
