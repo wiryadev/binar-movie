@@ -5,6 +5,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
+import com.wiryadev.binar_movie.data.local.db.FavoriteDao
+import com.wiryadev.binar_movie.data.local.entity.TvEntity
 import com.wiryadev.binar_movie.data.remote.Result
 import com.wiryadev.binar_movie.data.remote.tv.TvPagingSource
 import com.wiryadev.binar_movie.data.remote.tv.TvService
@@ -17,7 +19,8 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class TvRepositoryImpl @Inject constructor(
-    private val tvService: TvService
+    private val tvService: TvService,
+    private val favoriteDao: FavoriteDao,
 ) : TvRepository {
 
     override fun discoverTvShows(): LiveData<PagingData<TvDto>> {
@@ -41,6 +44,23 @@ class TvRepositoryImpl @Inject constructor(
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    override fun getFavoriteTvs(): Flow<List<TvEntity>> {
+        return favoriteDao.getFavoriteTvs()
+    }
+
+    override fun checkFavoriteTv(id: Int): Flow<Int> {
+        return favoriteDao.checkFavoriteTv(id = id)
+    }
+
+    override suspend fun addFavoriteTv(tv: TvEntity) {
+        favoriteDao.addFavoriteTv(tv = tv)
+    }
+
+    override suspend fun deleteFavoriteTv(tv: TvEntity) {
+        favoriteDao.deleteFavoriteTv(tv = tv)
+    }
+
 }
 
 private const val PAGING_PAGE_SIZE = 20

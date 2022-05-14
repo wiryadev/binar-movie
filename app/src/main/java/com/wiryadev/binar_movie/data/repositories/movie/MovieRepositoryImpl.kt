@@ -5,6 +5,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
+import com.wiryadev.binar_movie.data.local.db.FavoriteDao
+import com.wiryadev.binar_movie.data.local.entity.MovieEntity
 import com.wiryadev.binar_movie.data.remote.Result
 import com.wiryadev.binar_movie.data.remote.movie.MovieService
 import com.wiryadev.binar_movie.data.remote.movie.MoviesPagingSource
@@ -17,7 +19,8 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
-    private val movieService: MovieService
+    private val movieService: MovieService,
+    private val favoriteDao: FavoriteDao,
 ) : MovieRepository {
 
     override fun discoverMovies(): LiveData<PagingData<MovieDto>> {
@@ -40,6 +43,22 @@ class MovieRepositoryImpl @Inject constructor(
                 emit(Result.Error(exception = e))
             }
         }.flowOn(Dispatchers.IO)
+    }
+
+    override fun getFavoriteMovies(): Flow<List<MovieEntity>> {
+        return favoriteDao.getFavoriteMovies()
+    }
+
+    override fun checkFavoriteMovie(id: Int): Flow<Int> {
+        return favoriteDao.checkFavoriteMovie(id = id)
+    }
+
+    override suspend fun addFavoriteMovie(movie: MovieEntity) {
+        favoriteDao.addFavoriteMovie(movie = movie)
+    }
+
+    override suspend fun deleteFavoriteMovie(movie: MovieEntity) {
+        favoriteDao.deleteFavoriteMovie(movie = movie)
     }
 
 }

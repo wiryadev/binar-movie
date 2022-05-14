@@ -35,4 +35,7 @@ data class UserEntity(
 
     @ColumnInfo(name = "address")
     var address: String? = null,
+
+    @ColumnInfo(name = "profile_image")
+    var profileImage: String? = null,
 )

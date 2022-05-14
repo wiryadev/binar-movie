@@ -1,7 +1,10 @@
 package com.wiryadev.binar_movie.ui.tv.detail
 
 import androidx.lifecycle.*
+import com.wiryadev.binar_movie.data.local.entity.MovieEntity
+import com.wiryadev.binar_movie.data.local.entity.TvEntity
 import com.wiryadev.binar_movie.data.remote.Result
+import com.wiryadev.binar_movie.data.remote.movie.dto.DetailMovieResponse
 import com.wiryadev.binar_movie.data.repositories.tv.TvRepository
 import com.wiryadev.binar_movie.data.remote.tv.dto.DetailTvResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -42,6 +45,28 @@ class DetailTvViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun checkIsFavorite(id: Int) = tvRepository.checkFavoriteTv(id = id).asLiveData()
+
+    fun addFavoriteMovie(tv: DetailTvResponse) = viewModelScope.launch {
+        tvRepository.addFavoriteTv(
+            tv = TvEntity(
+                tvId = tv.id,
+                title = tv.name,
+                posterPath = tv.posterPath,
+            )
+        )
+    }
+
+    fun deleteFavoriteMovie(tv: DetailTvResponse) = viewModelScope.launch {
+        tvRepository.deleteFavoriteTv(
+            tv = TvEntity(
+                tvId = tv.id,
+                title = tv.name,
+                posterPath = tv.posterPath,
+            )
+        )
     }
 }
 

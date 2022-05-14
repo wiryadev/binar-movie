@@ -1,5 +1,6 @@
 package com.wiryadev.binar_movie.ui.profile
 
+import android.net.Uri
 import androidx.lifecycle.*
 import com.wiryadev.binar_movie.data.local.entity.UserEntity
 import com.wiryadev.binar_movie.data.preference.AuthModel
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import com.wiryadev.binar_movie.data.remote.Result
 import kotlinx.coroutines.flow.collectLatest
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -74,11 +76,18 @@ class ProfileViewModel @Inject constructor(
             }
         }
     }
+
+    fun updateProfilePic(picture: String) {
+        _uiState.update {
+            it.copy(picture = picture)
+        }
+    }
 }
 
 data class ProfileUiState(
     val isLoading: Boolean = false,
     val user: UserEntity? = null,
+    val picture: String? = null,
     val result: Int = 0,
     val errorMessage: String? = null,
 )
