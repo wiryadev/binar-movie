@@ -31,11 +31,10 @@ class LoginViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
-                val loginResult = userRepository.login(
+                userRepository.login(
                     email = email,
                     password = password,
-                )
-                loginResult.collectLatest { user ->
+                ).collectLatest { user ->
                     userRepository.saveUserSession(
                         AuthModel(
                             username = user.username,
