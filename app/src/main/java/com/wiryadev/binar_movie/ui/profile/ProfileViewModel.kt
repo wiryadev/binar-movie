@@ -25,11 +25,7 @@ class ProfileViewModel @Inject constructor(
     private val _uiState: MutableStateFlow<ProfileUiState> = MutableStateFlow(ProfileUiState())
     val uiState: LiveData<ProfileUiState> get() = _uiState.asLiveData()
 
-    init {
-        checkUserSession()
-    }
-
-    private fun checkUserSession() {
+    fun checkUserSession() {
         viewModelScope.launch {
             userRepository.getUserSession().collect {
                 _userSession.value = it
