@@ -1,17 +1,15 @@
 package com.wiryadev.binar_movie.ui.profile
 
-import android.net.Uri
 import androidx.lifecycle.*
 import com.wiryadev.binar_movie.data.local.entity.UserEntity
 import com.wiryadev.binar_movie.data.preference.AuthModel
+import com.wiryadev.binar_movie.data.remote.Result
 import com.wiryadev.binar_movie.data.repositories.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import com.wiryadev.binar_movie.data.remote.Result
-import kotlinx.coroutines.flow.collectLatest
-import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
