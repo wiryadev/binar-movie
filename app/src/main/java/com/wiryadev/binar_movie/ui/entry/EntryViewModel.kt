@@ -18,11 +18,7 @@ class EntryViewModel @Inject constructor(
     private val _isLoggedIn: MutableLiveData<Boolean> = MutableLiveData()
     val isLoggedIn: LiveData<Boolean> get() = _isLoggedIn
 
-    init {
-        getUser()
-    }
-
-    private fun getUser() {
+    fun getUser() {
         viewModelScope.launch {
             userRepository.getUserSession().collectLatest { user ->
                 _isLoggedIn.value = user.email.isNotBlank()

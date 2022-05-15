@@ -26,6 +26,7 @@ class EntryActivity : AppCompatActivity() {
         window.statusBarColor = Color.TRANSPARENT
         window.navigationBarColor = Color.TRANSPARENT
 
+        viewModel.getUser()
         viewModel.isLoggedIn.observe(this) { isLoggedIn ->
             startActivity(
                 Intent(
