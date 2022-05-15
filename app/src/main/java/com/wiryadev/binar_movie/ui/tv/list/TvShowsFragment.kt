@@ -63,7 +63,7 @@ class TvShowsFragment : Fragment() {
             }
         }
 
-        viewModel.movies.observe(viewLifecycleOwner) {
+        viewModel.tvShows.observe(viewLifecycleOwner) {
             tvShowsAdapter.submitData(lifecycle, it)
         }
     }

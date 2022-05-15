@@ -15,7 +15,7 @@ class TvShowsViewModel @Inject constructor(
     private val tvRepository: TvRepository
 ) : ViewModel() {
 
-    val movies: LiveData<PagingData<TvDto>> =
+    val tvShows: LiveData<PagingData<TvDto>> =
         tvRepository.discoverTvShows().cachedIn(viewModelScope)
 
 }
