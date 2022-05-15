@@ -2,7 +2,6 @@ package com.wiryadev.binar_movie.ui.movie.detail
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,6 +51,7 @@ class DetailMovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getDetail(args.movieId)
+        viewModel.checkIsFavorite(args.movieId)
 
         with(binding) {
             viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
@@ -64,7 +64,8 @@ class DetailMovieFragment : Fragment() {
                 uiState.movie?.let { movie ->
                     movieDetail = movie
                     tvLabelDate.text = getString(R.string.release_date)
-                    (requireActivity() as MainActivity).supportActionBar?.title = movie.originalTitle
+                    (requireActivity() as MainActivity).supportActionBar?.title =
+                        movie.originalTitle
 
                     ivDetailPoster.load("${BuildConfig.BASE_IMAGE_URL}${movie.posterPath}") {
                         transformations(RoundedCornersTransformation(dpToPx(16)))
@@ -81,10 +82,8 @@ class DetailMovieFragment : Fragment() {
                     tvDetailOverview.text = movie.overview
                     tvDetailDate.text = movie.releaseDate
                 }
-            }
 
-            viewModel.checkIsFavorite(args.movieId).observe(viewLifecycleOwner) {
-                setButtonState(it > 0)
+                setButtonState(uiState.isFavorite)
             }
         }
     }
@@ -111,5 +110,3 @@ class DetailMovieFragment : Fragment() {
     }
 
 }
-
-private const val TAG = "DetailMovie"

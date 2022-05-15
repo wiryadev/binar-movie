@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.wiryadev.binar_movie.data.local.entity.MovieEntity
 import com.wiryadev.binar_movie.data.remote.Result
 import com.wiryadev.binar_movie.data.remote.movie.dto.DetailMovieResponse
-import com.wiryadev.binar_movie.data.remote.movie.dto.MovieDto
 import com.wiryadev.binar_movie.data.repositories.movie.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,7 +48,15 @@ class DetailMovieViewModel @Inject constructor(
         }
     }
 
-    fun checkIsFavorite(id: Int) = movieRepository.checkFavoriteMovie(id = id).asLiveData()
+    fun checkIsFavorite(id: Int) = viewModelScope.launch {
+        movieRepository.checkFavoriteMovie(id = id).collect { movie ->
+            _uiState.update {
+                it.copy(
+                    isFavorite = movie > 0
+                )
+            }
+        }
+    }
 
     fun addFavoriteMovie(movie: DetailMovieResponse) = viewModelScope.launch {
         movieRepository.addFavoriteMovie(
@@ -76,5 +83,6 @@ class DetailMovieViewModel @Inject constructor(
 data class DetailMovieUiState(
     val isLoading: Boolean = false,
     val movie: DetailMovieResponse? = null,
+    val isFavorite: Boolean = false,
     val errorMessage: String? = null,
 )
