@@ -47,9 +47,10 @@
                 android:id="@+id/et_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:cursorVisible="false"
                 android:ems="10"
-                android:enabled="false"
-                android:inputType="text"
+                android:focusableInTouchMode="false"
+                android:inputType="none"
                 tools:ignore="SpeakableTextPresentCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
