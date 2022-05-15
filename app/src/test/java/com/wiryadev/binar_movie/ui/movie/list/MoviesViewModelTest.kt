@@ -4,11 +4,11 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.*
-import androidx.recyclerview.widget.ListUpdateCallback
 import com.wiryadev.binar_movie.data.remote.movie.dto.MovieDto
 import com.wiryadev.binar_movie.utils.MainCoroutineRule
 import com.wiryadev.binar_movie.utils.MovieDataDummy
 import com.wiryadev.binar_movie.utils.getOrAwaitValue
+import com.wiryadev.binar_movie.utils.noopListUpdateCallback
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
@@ -38,7 +38,7 @@ class MoviesViewModelTest {
     @Test
     fun `when Get Movies, should return Success`() = runTest {
         val fakeData = MovieDataDummy.listMovieResponse.movies
-        val pagingData = PagedTestDataSources.snapshot(fakeData)
+        val pagingData = MoviePagedTestDataSources.snapshot(fakeData)
         val expected = MutableLiveData<PagingData<MovieDto>>()
         expected.value = pagingData
 
@@ -62,14 +62,7 @@ class MoviesViewModelTest {
 
 }
 
-val noopListUpdateCallback = object : ListUpdateCallback {
-    override fun onInserted(position: Int, count: Int) {}
-    override fun onRemoved(position: Int, count: Int) {}
-    override fun onMoved(fromPosition: Int, toPosition: Int) {}
-    override fun onChanged(position: Int, count: Int, payload: Any?) {}
-}
-
-class PagedTestDataSources : PagingSource<Int, LiveData<List<MovieDto>>>() {
+class MoviePagedTestDataSources : PagingSource<Int, LiveData<List<MovieDto>>>() {
 
     override fun getRefreshKey(state: PagingState<Int, LiveData<List<MovieDto>>>): Int {
         return 0

@@ -20,14 +20,14 @@ object MovieDataDummy {
             list.add(
                 MovieDto(
                     adult = false,
-                    backdropPath = "/movie$i",
+                    backdropPath = "/backdropMovie$i",
                     genreIds = listOf(),
                     id = i,
                     originalLanguage = "",
                     originalTitle = "",
                     overview = "",
                     popularity = 0.0,
-                    posterPath = null,
+                    posterPath = "/posterMovie$i",
                     releaseDate = "",
                     title = "Title $i",
                     video = false,
