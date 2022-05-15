@@ -1,12 +1,13 @@
 package com.wiryadev.binar_movie.ui.tv.detail
 
-import androidx.lifecycle.*
-import com.wiryadev.binar_movie.data.local.entity.MovieEntity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.wiryadev.binar_movie.data.local.entity.TvEntity
 import com.wiryadev.binar_movie.data.remote.Result
-import com.wiryadev.binar_movie.data.remote.movie.dto.DetailMovieResponse
-import com.wiryadev.binar_movie.data.repositories.tv.TvRepository
 import com.wiryadev.binar_movie.data.remote.tv.dto.DetailTvResponse
+import com.wiryadev.binar_movie.data.repositories.tv.TvRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -33,7 +34,7 @@ class DetailTvViewModel @Inject constructor(
                     is Result.Success -> _uiState.update {
                         it.copy(
                             isLoading = false,
-                            movie = result.data
+                            tv = result.data
                         )
                     }
                     is Result.Error -> _uiState.update {
@@ -47,7 +48,15 @@ class DetailTvViewModel @Inject constructor(
         }
     }
 
-    fun checkIsFavorite(id: Int) = tvRepository.checkFavoriteTv(id = id).asLiveData()
+    fun checkIsFavorite(id: Int) = viewModelScope.launch {
+        tvRepository.checkFavoriteTv(id = id).collect { tvShow ->
+            _uiState.update {
+                it.copy(
+                    isFavorite = tvShow > 0
+                )
+            }
+        }
+    }
 
     fun addFavoriteMovie(tv: DetailTvResponse) = viewModelScope.launch {
         tvRepository.addFavoriteTv(
@@ -72,6 +81,7 @@ class DetailTvViewModel @Inject constructor(
 
 data class DetailTvUiState(
     val isLoading: Boolean = false,
-    val movie: DetailTvResponse? = null,
+    val tv: DetailTvResponse? = null,
+    val isFavorite: Boolean = false,
     val errorMessage: String? = null,
 )

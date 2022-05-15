@@ -51,6 +51,7 @@ class DetailTvFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getDetail(args.tvId)
+        viewModel.checkIsFavorite(args.tvId)
 
         with(binding) {
             viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
@@ -60,7 +61,7 @@ class DetailTvFragment : Fragment() {
                     root.showSnackbar(it)
                 }
 
-                uiState.movie?.let { tv ->
+                uiState.tv?.let { tv ->
                     tvDetail = tv
                     tvLabelDate.text = getString(R.string.first_air_date)
                     (requireActivity() as MainActivity).supportActionBar?.title = tv.originalName
@@ -81,9 +82,7 @@ class DetailTvFragment : Fragment() {
                     tvDetailDate.text = tv.firstAirDate
                 }
 
-                viewModel.checkIsFavorite(args.tvId).observe(viewLifecycleOwner) {
-                    setButtonState(it > 0)
-                }
+                setButtonState(uiState.isFavorite)
             }
         }
     }
