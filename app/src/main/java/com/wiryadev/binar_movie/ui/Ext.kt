@@ -14,6 +14,7 @@ import android.view.View
 import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import java.io.*
@@ -34,8 +35,15 @@ fun dpToPx(dp: Number) = TypedValue.applyDimension(
     Resources.getSystem().displayMetrics
 )
 
-fun View.showSnackbar(message: String) {
-    Snackbar.make(this, message, Snackbar.LENGTH_LONG).show()
+fun View.showSnackbar(message: String, onDismissed: (() -> Unit)? = null) {
+    Snackbar.make(this, message, Snackbar.LENGTH_LONG)
+        .addCallback(object : Snackbar.Callback() {
+            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                super.onDismissed(transientBottomBar, event)
+                onDismissed?.invoke()
+            }
+        })
+        .show()
 }
 
 inline fun EditText.addErrorListener(
@@ -84,7 +92,11 @@ fun createCustomTempFile(context: Context): File {
     return File.createTempFile(timeStamp, ".jpg", storageDir)
 }
 
-fun savePhotoToExternalStorage(contentResolver : ContentResolver?, name: String, bmp: Bitmap?): Uri? {
+fun savePhotoToExternalStorage(
+    contentResolver: ContentResolver?,
+    name: String,
+    bmp: Bitmap?
+): Uri? {
     val imageCollection: Uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
     } else {
