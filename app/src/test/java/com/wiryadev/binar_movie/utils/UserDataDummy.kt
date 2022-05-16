@@ -6,8 +6,8 @@ import com.wiryadev.binar_movie.data.preference.AuthModel
 object UserDataDummy {
 
     val authModel = AuthModel(
+        email = "email",
         username = "username",
-        email = "email"
     )
 
     val userEntity = UserEntity(
