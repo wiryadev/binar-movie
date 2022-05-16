@@ -96,12 +96,12 @@ class DetailTvFragment : Fragment() {
         binding.btnFav.apply {
             if (isFavorite) {
                 setOnClickListener {
-                    tvDetail?.let { movie -> viewModel.deleteFavoriteMovie(movie) }
+                    tvDetail?.let { movie -> viewModel.deleteFavoriteTv(movie) }
                 }
                 setImageResource(R.drawable.ic_round_bookmark_added_24)
             } else {
                 setOnClickListener {
-                    tvDetail?.let { movie -> viewModel.addFavoriteMovie(movie) }
+                    tvDetail?.let { movie -> viewModel.addFavoriteTv(movie) }
                 }
                 setImageResource(R.drawable.ic_round_bookmark_border_24)
             }

@@ -58,7 +58,7 @@ class DetailTvViewModel @Inject constructor(
         }
     }
 
-    fun addFavoriteMovie(tv: DetailTvResponse) = viewModelScope.launch {
+    fun addFavoriteTv(tv: DetailTvResponse) = viewModelScope.launch {
         tvRepository.addFavoriteTv(
             tv = TvEntity(
                 tvId = tv.id,
@@ -68,7 +68,7 @@ class DetailTvViewModel @Inject constructor(
         )
     }
 
-    fun deleteFavoriteMovie(tv: DetailTvResponse) = viewModelScope.launch {
+    fun deleteFavoriteTv(tv: DetailTvResponse) = viewModelScope.launch {
         tvRepository.deleteFavoriteTv(
             tv = TvEntity(
                 tvId = tv.id,
