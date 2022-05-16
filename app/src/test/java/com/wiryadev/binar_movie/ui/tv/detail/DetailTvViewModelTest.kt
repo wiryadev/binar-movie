@@ -57,7 +57,7 @@ class DetailTvViewModelTest {
 
     @Test
     fun `when Add Favorite and then Check, should return True`() {
-        viewModel.addFavoriteMovie(TvDataDummy.detailTv)
+        viewModel.addFavoriteTv(TvDataDummy.detailTv)
         viewModel.checkIsFavorite(id = TvDataDummy.detailTv.id)
 
         val actual = viewModel.uiState.getOrAwaitValue()
@@ -66,7 +66,8 @@ class DetailTvViewModelTest {
 
     @Test
     fun `when Delete Favorite and then Check, should return False`() {
-        viewModel.deleteFavoriteMovie(TvDataDummy.detailTv)
+        viewModel.addFavoriteTv(TvDataDummy.detailTv)
+        viewModel.deleteFavoriteTv(TvDataDummy.detailTv)
         viewModel.checkIsFavorite(id = TvDataDummy.detailTv.id)
 
         val actual = viewModel.uiState.getOrAwaitValue()

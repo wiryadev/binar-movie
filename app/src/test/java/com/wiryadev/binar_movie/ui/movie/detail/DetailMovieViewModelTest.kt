@@ -66,6 +66,7 @@ class DetailMovieViewModelTest {
 
     @Test
     fun `when Delete Favorite and then Check, should return False`() {
+        viewModel.addFavoriteMovie(MovieDataDummy.detailMovie)
         viewModel.deleteFavoriteMovie(MovieDataDummy.detailMovie)
         viewModel.checkIsFavorite(id = MovieDataDummy.detailMovie.id)
 
