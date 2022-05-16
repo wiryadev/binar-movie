@@ -47,7 +47,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `when Login, should Save User Session and return True`() = runTest {
+    fun `when Login success, should return True and Save User Session`() = runTest {
         val expected = MutableLiveData<LoginUiState>()
         expected.value = loggedInUiState
 
@@ -63,7 +63,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `when Login, should Failed and return False`() = runTest {
+    fun `when Login failed, should return False and throw Exception`() = runTest {
         whenever(repository.login("", ""))
             .thenThrow(RuntimeException())
         viewModel.login("", "")

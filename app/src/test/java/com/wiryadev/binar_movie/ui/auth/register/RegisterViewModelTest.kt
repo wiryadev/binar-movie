@@ -47,7 +47,7 @@ class RegisterViewModelTest {
     }
 
     @Test
-    fun `when Register, should Success return True`() = runTest {
+    fun `when Register success, should return True`() = runTest {
         val expected = MutableLiveData<RegisterUiState>()
         expected.value = registerUiState
 
@@ -61,7 +61,7 @@ class RegisterViewModelTest {
     }
 
     @Test
-    fun `when Register, should Failed and return False`() = runTest {
+    fun `when Register failed, should return False and throw Exception`() = runTest {
         whenever(repository.register(UserDataDummy.userEntity))
             .thenThrow(RuntimeException("Registration Failed"))
         viewModel.register(UserDataDummy.userEntity)
