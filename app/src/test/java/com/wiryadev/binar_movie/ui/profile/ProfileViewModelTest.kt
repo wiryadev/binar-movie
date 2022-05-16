@@ -102,4 +102,13 @@ class ProfileViewModelTest {
         actual.picture shouldBeEqualTo "uri"
     }
 
+    @Test
+    fun `when Reset Update Status, result should be back to Zero`() {
+        viewModel.resetUpdateStatus()
+        val actual = viewModel.uiState.getOrAwaitValue()
+
+        actual shouldNotBe null
+        actual.result shouldBeEqualTo 0
+    }
+
 }

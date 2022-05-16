@@ -76,6 +76,12 @@ class ProfileViewModel @Inject constructor(
             it.copy(picture = picture)
         }
     }
+
+    fun resetUpdateStatus() {
+        _uiState.update {
+            it.copy(result = 0)
+        }
+    }
 }
 
 data class ProfileUiState(

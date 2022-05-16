@@ -114,7 +114,9 @@ class ProfileFragment : Fragment() {
                 }
 
                 if (uiState.result > 0) {
-                    root.showSnackbar(getString(R.string.update_success))
+                    root.showSnackbar(getString(R.string.update_success)) {
+                        viewModel.resetUpdateStatus()
+                    }
                 }
 
                 uiState.user?.let { user ->
