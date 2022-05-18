@@ -14,9 +14,16 @@ object MovieDataDummy {
         totalResults = 30
     )
 
-    private fun generateMovieDtoList() : List<MovieDto> {
+    fun generateDynamicMovieList(n: Int) = ListMovieResponse(
+        page = 1,
+        movies = generateMovieDtoList(n),
+        totalPages = n,
+        totalResults = n
+    )
+
+    private fun generateMovieDtoList(n: Int = 30) : List<MovieDto> {
         val list = mutableListOf<MovieDto>()
-        for (i in 1..30) {
+        for (i in 1..n) {
             list.add(
                 MovieDto(
                     adult = false,
