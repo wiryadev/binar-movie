@@ -21,7 +21,7 @@ object MovieDataDummy {
         totalResults = n
     )
 
-    private fun generateMovieDtoList(n: Int = 30) : List<MovieDto> {
+    private fun generateMovieDtoList(n: Int = 30): List<MovieDto> {
         val list = mutableListOf<MovieDto>()
         for (i in 1..n) {
             list.add(
@@ -46,13 +46,15 @@ object MovieDataDummy {
         return list
     }
 
-    val detailMovie = DetailMovieResponse(
+    val detailMovie = generateDetailMovieResponse()
+
+    fun generateDetailMovieResponse(i: Int = 1) = DetailMovieResponse(
         adult = false,
-        backdropPath = "/detailMovie",
-        budget = 0,
+        backdropPath = "/detailMovie$i",
+        budget = i * 100000,
         genres = listOf(),
         homepage = "",
-        id = 1,
+        id = i,
         imdbId = "",
         originalLanguage = "",
         originalTitle = "",
@@ -64,18 +66,26 @@ object MovieDataDummy {
         runtime = 0,
         status = "",
         tagline = "",
-        title = "Title 1",
+        title = "Title $i",
         video = false,
         voteAverage = 0.0,
         voteCount = 0
     )
 
-    val favoriteMovies = listOf(
-        MovieEntity(
-            movieId = 1,
-            title = "Title 1",
-            posterPath = "/movie1"
-        )
-    )
+    val favoriteMovies = generateFavoriteMovies()
+
+    fun generateFavoriteMovies(n: Int = 10): List<MovieEntity> {
+        val list = mutableListOf<MovieEntity>()
+        for (i in 1..n) {
+            list.add(
+                MovieEntity(
+                    movieId = i,
+                    title = "Title $i",
+                    posterPath = "/movie$i"
+                )
+            )
+        }
+        return list
+    }
 
 }

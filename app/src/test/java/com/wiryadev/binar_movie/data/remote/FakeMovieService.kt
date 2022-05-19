@@ -11,6 +11,10 @@ class FakeMovieService : MovieService {
     }
 
     override suspend fun getMovieDetail(movieId: Int): DetailMovieResponse {
-        return MovieDataDummy.detailMovie
+        return if (movieId == MovieDataDummy.detailMovie.id) {
+            MovieDataDummy.detailMovie
+        } else {
+            throw RuntimeException("Not Found")
+        }
     }
 }
