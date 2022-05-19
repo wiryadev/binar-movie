@@ -20,4 +20,14 @@ object UserDataDummy {
         profileImage = null,
     )
 
+    fun generateUser(name: String) = UserEntity(
+        email = "${name}@mail.com",
+        username = name,
+        password = "${name}123",
+        fullName = name,
+        birthDate = null,
+        address = null,
+        profileImage = null,
+    )
+
 }
