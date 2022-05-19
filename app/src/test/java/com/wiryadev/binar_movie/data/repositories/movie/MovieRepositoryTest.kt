@@ -9,18 +9,24 @@ import com.wiryadev.binar_movie.data.remote.FakeMovieService
 import com.wiryadev.binar_movie.data.remote.Result
 import com.wiryadev.binar_movie.data.remote.movie.MovieService
 import com.wiryadev.binar_movie.data.remote.movie.MoviesPagingSource
+import com.wiryadev.binar_movie.utils.MainCoroutineRule
 import com.wiryadev.binar_movie.utils.MovieDataDummy
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class MovieRepositoryTest {
+
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule(StandardTestDispatcher())
 
     private val movieService: MovieService = FakeMovieService()
     private val favoriteDao: FavoriteDao = FakeFavoriteDao()
