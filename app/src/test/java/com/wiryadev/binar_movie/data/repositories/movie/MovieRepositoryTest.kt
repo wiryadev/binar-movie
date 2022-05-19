@@ -31,11 +31,11 @@ class MovieRepositoryTest {
     private val movieService: MovieService = FakeMovieService()
     private val favoriteDao: FavoriteDao = FakeFavoriteDao()
 
-    private lateinit var movieRepository: MovieRepository
+    private lateinit var repository: MovieRepository
 
     @Before
     fun setUp() {
-        movieRepository = MovieRepositoryImpl(
+        repository = MovieRepositoryImpl(
             movieService = movieService,
             favoriteDao = favoriteDao,
         )
@@ -63,7 +63,7 @@ class MovieRepositoryTest {
     @Test
     fun `when Get Movie Detail success, should return Movie`() = runTest {
         val expected = Result.Success(MovieDataDummy.detailMovie)
-        val actual = movieRepository.getMovieDetail(MovieDataDummy.detailMovie.id).first()
+        val actual = repository.getMovieDetail(MovieDataDummy.detailMovie.id).first()
 
         actual shouldBeEqualTo expected
     }
@@ -71,7 +71,7 @@ class MovieRepositoryTest {
     @Test(expected = RuntimeException::class)
     fun `when Get Movie Detail failed, should throw Error`() = runTest {
         val expected = Result.Error(RuntimeException("Not Found"))
-        val actual = movieRepository.getMovieDetail(-1).first()
+        val actual = repository.getMovieDetail(-1).first()
 
         actual shouldBeEqualTo expected
     }
@@ -79,7 +79,7 @@ class MovieRepositoryTest {
     @Test
     fun `when Get Favorite Movies, should return Favorite Movie List`() = runTest {
         val expected = MovieDataDummy.favoriteMovies
-        val actual = movieRepository.getFavoriteMovies().first()
+        val actual = repository.getFavoriteMovies().first()
 
         actual shouldBeEqualTo expected
         actual.size shouldBeEqualTo expected.size
@@ -93,10 +93,10 @@ class MovieRepositoryTest {
             title = fakeResponse.title,
             posterPath = fakeResponse.posterPath,
         )
-        launch { movieRepository.addFavoriteMovie(dataToBeAdded) }
+        launch { repository.addFavoriteMovie(dataToBeAdded) }
         advanceUntilIdle()
 
-        val actual = movieRepository.checkFavoriteMovie(dataToBeAdded.movieId).first()
+        val actual = repository.checkFavoriteMovie(dataToBeAdded.movieId).first()
         actual shouldBeEqualTo 1
     }
 
@@ -109,11 +109,11 @@ class MovieRepositoryTest {
             posterPath = fakeResponse.posterPath,
         )
 
-        launch { movieRepository.addFavoriteMovie(dataToBeAddedAndDeleted) }
-        launch { movieRepository.deleteFavoriteMovie(dataToBeAddedAndDeleted) }
+        launch { repository.addFavoriteMovie(dataToBeAddedAndDeleted) }
+        launch { repository.deleteFavoriteMovie(dataToBeAddedAndDeleted) }
         advanceUntilIdle()
 
-        val actual = movieRepository.checkFavoriteMovie(dataToBeAddedAndDeleted.movieId).first()
+        val actual = repository.checkFavoriteMovie(dataToBeAddedAndDeleted.movieId).first()
         actual shouldBeEqualTo 0
     }
 
@@ -121,11 +121,11 @@ class MovieRepositoryTest {
     fun `when Delete existing Favorite and then Check, should return 0`() = runTest {
         val existingDataToBeDeleted = MovieDataDummy.favoriteMovies[0]
 
-        launch { movieRepository.getFavoriteMovies() }
-        launch { movieRepository.deleteFavoriteMovie(existingDataToBeDeleted) }
+        launch { repository.getFavoriteMovies() }
+        launch { repository.deleteFavoriteMovie(existingDataToBeDeleted) }
         advanceUntilIdle()
 
-        val actual = movieRepository.checkFavoriteMovie(existingDataToBeDeleted.movieId).first()
+        val actual = repository.checkFavoriteMovie(existingDataToBeDeleted.movieId).first()
         actual shouldBeEqualTo 0
     }
 
