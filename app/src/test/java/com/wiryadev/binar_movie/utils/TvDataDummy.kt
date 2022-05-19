@@ -1,5 +1,6 @@
 package com.wiryadev.binar_movie.utils
 
+import com.wiryadev.binar_movie.data.local.entity.MovieEntity
 import com.wiryadev.binar_movie.data.local.entity.TvEntity
 import com.wiryadev.binar_movie.data.remote.tv.dto.DetailTvResponse
 import com.wiryadev.binar_movie.data.remote.tv.dto.ListTvResponse
@@ -14,9 +15,16 @@ object TvDataDummy {
         totalResults = 30
     )
 
-    private fun generateTvDtoList() : List<TvDto> {
+    fun generateDynamicTvList(n: Int) = ListTvResponse(
+        page = 1,
+        tvShows = generateTvDtoList(n),
+        totalPages = n,
+        totalResults = n
+    )
+
+    private fun generateTvDtoList(n: Int = 30) : List<TvDto> {
         val list = mutableListOf<TvDto>()
-        for (i in 1..30) {
+        for (i in 1..n) {
             list.add(
                 TvDto(
                     backdropPath = "/backdropTv$i",
@@ -38,17 +46,19 @@ object TvDataDummy {
         return list
     }
 
-    val detailTv = DetailTvResponse(
+    val detailTv = generateDetailTvResponse()
+
+    fun generateDetailTvResponse(i: Int = 1) = DetailTvResponse(
         adult = false,
-        backdropPath = "/detailTv",
+        backdropPath = "/detailTv$i",
         episodeRunTime = listOf(),
         firstAirDate = "",
         genres = listOf(),
         homepage = "",
-        id = 1,
+        id = i,
         inProduction = false,
         lastAirDate = "",
-        name = "Title 1",
+        name = "Title $i",
         numberOfEpisodes = 8,
         numberOfSeasons = 4,
         originalLanguage = "",
@@ -63,12 +73,20 @@ object TvDataDummy {
         voteCount = 0
     )
 
-    val favoriteTvs = listOf(
-        TvEntity(
-            tvId = 1,
-            title = "Title 1",
-            posterPath = "/tv1"
-        )
-    )
+    val favoriteTvs = generateFavoriteTvs()
+
+    fun generateFavoriteTvs(n: Int = 10): List<TvEntity> {
+        val list = mutableListOf<TvEntity>()
+        for (i in 1..n) {
+            list.add(
+                TvEntity(
+                    tvId = i,
+                    title = "Title $i",
+                    posterPath = "/movie$i"
+                )
+            )
+        }
+        return list
+    }
 
 }
