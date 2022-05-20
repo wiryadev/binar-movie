@@ -107,7 +107,9 @@ dependencies {
     // Coroutines
     def coroutines_version = " 1.6.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    debugImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+    debugImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
 
     // testing
@@ -117,7 +119,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
     implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
-    androidTestImplementation "androidx.fragment:fragment-testing:1.4.1" //launchFragmentInContainer
+    debugImplementation "androidx.fragment:fragment-testing:1.4.1" //launchFragmentInContainer
 
     // mockito
     testImplementation 'org.mockito:mockito-inline:4.5.1'
