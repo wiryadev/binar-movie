@@ -20,7 +20,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.wiryadev.binar_movie.utils.HiltTestRunner"
 
         buildConfigField("String" , "BASE_URL" , "\"https://api.themoviedb.org/3/\"")
         buildConfigField("String" , "BASE_IMAGE_URL" , "\"https://image.tmdb.org/t/p/original\"")
@@ -101,13 +101,14 @@ dependencies {
     def hilt_version = "2.42"
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     // Coroutines
     def coroutines_version = " 1.6.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
-
 
     // testing
     testImplementation "junit:junit:4.13.2"
@@ -116,6 +117,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
     implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
+    androidTestImplementation "androidx.fragment:fragment-testing:1.4.1" //launchFragmentInContainer
 
     // mockito
     testImplementation 'org.mockito:mockito-inline:4.5.1'
@@ -124,5 +126,9 @@ dependencies {
     // Kluent
     testImplementation 'org.amshove.kluent:kluent-android:1.68'
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:1.6.21"
+
+    // Mock Web Server
+    androidTestImplementation "com.squareup.okhttp3:okhttp-tls:$okhttp_version"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okhttp_version"
 
 }
