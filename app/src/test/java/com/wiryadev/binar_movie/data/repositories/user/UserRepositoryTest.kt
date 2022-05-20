@@ -13,7 +13,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
+import org.amshove.kluent.coInvoking
 import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldThrow
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -57,6 +59,13 @@ class UserRepositoryTest {
         actual shouldBeEqualTo expected
         actual.username shouldBeEqualTo expected.username
         actual.email shouldBeEqualTo expected.email
+    }
+
+    @Test
+    fun `when Login using non-exist data, should throw Exception`() = runTest {
+        coInvoking {
+            repository.login("", "")
+        } shouldThrow RuntimeException::class
     }
 
     @Test
@@ -113,6 +122,13 @@ class UserRepositoryTest {
         actual shouldBeEqualTo expected
         actual.email shouldBeEqualTo expected.email
         actual.username shouldBeEqualTo expected.username
+    }
+
+    @Test
+    fun `when Get User failed, should throw Exception`() = runTest {
+        coInvoking {
+            repository.getUser("")
+        } shouldThrow RuntimeException::class
     }
 
     @Test
