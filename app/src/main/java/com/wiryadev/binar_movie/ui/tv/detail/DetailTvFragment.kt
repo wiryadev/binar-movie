@@ -35,8 +35,10 @@ class DetailTvFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (requireActivity() as MainActivity).setupActionBarListener {
-            findNavController().navigateUp()
+        if (activity is MainActivity) {
+            (activity as MainActivity).setupActionBarListener {
+                findNavController().navigateUp()
+            }
         }
     }
 
@@ -64,7 +66,9 @@ class DetailTvFragment : Fragment() {
                 uiState.tv?.let { tv ->
                     tvDetail = tv
                     tvLabelDate.text = getString(R.string.first_air_date)
-                    (requireActivity() as MainActivity).supportActionBar?.title = tv.originalName
+                    if (activity is MainActivity) {
+                        (activity as MainActivity).supportActionBar?.title = tv.originalName
+                    }
 
                     ivDetailPoster.load("${BuildConfig.BASE_IMAGE_URL}${tv.posterPath}") {
                         transformations(RoundedCornersTransformation(dpToPx(16)))

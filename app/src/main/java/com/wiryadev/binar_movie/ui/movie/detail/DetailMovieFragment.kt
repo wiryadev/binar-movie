@@ -35,8 +35,10 @@ class DetailMovieFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (requireActivity() as MainActivity).setupActionBarListener {
-            findNavController().navigateUp()
+        if (activity is MainActivity) {
+            (activity as MainActivity).setupActionBarListener {
+                findNavController().navigateUp()
+            }
         }
     }
 
@@ -64,8 +66,9 @@ class DetailMovieFragment : Fragment() {
                 uiState.movie?.let { movie ->
                     movieDetail = movie
                     tvLabelDate.text = getString(R.string.release_date)
-                    (requireActivity() as MainActivity).supportActionBar?.title =
-                        movie.originalTitle
+                    if (activity is MainActivity) {
+                        (activity as MainActivity).supportActionBar?.title = movie.originalTitle
+                    }
 
                     ivDetailPoster.load("${BuildConfig.BASE_IMAGE_URL}${movie.posterPath}") {
                         transformations(RoundedCornersTransformation(dpToPx(16)))
