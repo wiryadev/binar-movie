@@ -1,10 +1,11 @@
-package com.wiryadev.binar_movie.ui.movie.list
+package com.wiryadev.binar_movie.ui.tv.list
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.wiryadev.binar_movie.R
 import com.wiryadev.binar_movie.utils.JsonConverter
 import com.wiryadev.binar_movie.utils.launchFragmentInHiltContainer
@@ -19,7 +20,7 @@ import org.junit.Test
 import org.junit.rules.RuleChain
 
 @HiltAndroidTest
-class MoviesFragmentTest {
+class TvShowsFragmentTest {
 
     private val hiltRule = HiltAndroidRule(this)
 
@@ -41,31 +42,30 @@ class MoviesFragmentTest {
     }
 
     @Test
-    fun discoverMovie_isSuccess() {
-        launchFragmentInHiltContainer<MoviesFragment>()
+    fun getTv_isSuccess() {
+        launchFragmentInHiltContainer<TvShowsFragment>()
 
         val mockResponse = MockResponse().apply {
             setResponseCode(200)
-            setBody(JsonConverter.readStringFromFile("discover_movie_success_response.json"))
+            setBody(JsonConverter.readStringFromFile("discover_tv_success_response.json"))
         }
         mockWebServer.enqueue(mockResponse)
 
-
         // check recyclerView
-        onView(withId(R.id.rv_movies))
-            .check(matches(isDisplayed()))
+        onView(withId(R.id.rv_tv_shows))
+            .check(matches(ViewMatchers.isDisplayed()))
 
         // check first visible data
-        onView(withText("The Lost City"))
-            .check(matches(isDisplayed()))
+        onView(ViewMatchers.withText("Halo"))
+            .check(matches(ViewMatchers.isDisplayed()))
 
 
-        onView(withId(R.id.rv_movies))
+        onView(withId(R.id.rv_tv_shows))
             .perform(
                 RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(10)
             )
-        onView(withText("The Contractor"))
-            .check(matches(isDisplayed()))
+        onView(ViewMatchers.withText("Pantanal"))
+            .check(matches(ViewMatchers.isDisplayed()))
     }
 
 }
