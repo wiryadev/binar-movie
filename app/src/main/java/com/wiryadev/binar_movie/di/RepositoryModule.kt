@@ -11,7 +11,6 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
-@InstallIn(SingletonComponent::class)
 @Module(
     includes = [
         NetworkModule::class,
@@ -19,6 +18,7 @@ import dagger.hilt.components.SingletonComponent
         DataStoreModule::class,
     ]
 )
+@InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
 
     @Binds
