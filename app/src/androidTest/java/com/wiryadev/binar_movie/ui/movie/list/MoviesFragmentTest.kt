@@ -50,6 +50,7 @@ class MoviesFragmentTest {
         }
         mockWebServer.enqueue(mockResponse)
 
+        Thread.sleep(250) // should use EspressoIdlingResource
 
         // check recyclerView
         onView(withId(R.id.rv_movies))

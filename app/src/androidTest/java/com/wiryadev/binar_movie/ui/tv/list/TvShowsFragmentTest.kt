@@ -51,6 +51,8 @@ class TvShowsFragmentTest {
         }
         mockWebServer.enqueue(mockResponse)
 
+        Thread.sleep(250) // should use EspressoIdlingResource
+
         // check recyclerView
         onView(withId(R.id.rv_tv_shows))
             .check(matches(ViewMatchers.isDisplayed()))
