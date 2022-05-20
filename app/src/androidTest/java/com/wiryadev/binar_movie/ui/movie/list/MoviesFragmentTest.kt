@@ -59,7 +59,7 @@ class MoviesFragmentTest {
         onView(withText("The Lost City"))
             .check(matches(isDisplayed()))
 
-
+        // scroll to position 10 and check
         onView(withId(R.id.rv_movies))
             .perform(
                 RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(10)

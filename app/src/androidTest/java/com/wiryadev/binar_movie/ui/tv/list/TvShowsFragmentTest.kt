@@ -59,7 +59,7 @@ class TvShowsFragmentTest {
         onView(ViewMatchers.withText("Halo"))
             .check(matches(ViewMatchers.isDisplayed()))
 
-
+        // scroll to position 10 and check
         onView(withId(R.id.rv_tv_shows))
             .perform(
                 RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(10)
