@@ -78,5 +78,4 @@ object NetworkModule {
         return retrofit.create()
     }
 
-
 }
