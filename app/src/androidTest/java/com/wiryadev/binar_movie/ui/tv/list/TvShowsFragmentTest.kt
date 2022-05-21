@@ -46,7 +46,7 @@ class TvShowsFragmentTest {
     }
 
     @Test
-    fun getTv_isSuccess() {
+    fun discoverTv_isSuccess() {
         launchFragmentInHiltContainer<TvShowsFragment>()
 
         val mockResponse = MockResponse().apply {
