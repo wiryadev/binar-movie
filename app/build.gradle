@@ -27,6 +27,20 @@ android {
         buildConfigField("String" , "API_KEY" , localProperties['apiKey'])
     }
 
+    flavorDimensions "color"
+    productFlavors {
+        purple {
+            dimension "color"
+            applicationIdSuffix ".purple"
+            versionNameSuffix "-purple"
+        }
+        green {
+            dimension "color"
+            applicationIdSuffix ".green"
+            versionNameSuffix "-green"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false

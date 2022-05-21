@@ -24,6 +24,7 @@ import coil.transform.CircleCropTransformation
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.wiryadev.binar_movie.BuildConfig
 import com.wiryadev.binar_movie.R
 import com.wiryadev.binar_movie.data.local.entity.UserEntity
 import com.wiryadev.binar_movie.databinding.FragmentProfileBinding
@@ -261,7 +262,7 @@ class ProfileFragment : Fragment() {
         createCustomTempFile(requireActivity().application).also {
             val photoURI: Uri = FileProvider.getUriForFile(
                 requireActivity(),
-                "com.wiryadev.binar_movie",
+                BuildConfig.APPLICATION_ID,
                 it
             )
             currentPhotoPath = it.absolutePath
