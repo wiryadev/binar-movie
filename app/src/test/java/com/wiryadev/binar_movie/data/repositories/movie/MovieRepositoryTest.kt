@@ -5,9 +5,9 @@ import androidx.paging.PagingSource.LoadResult.Page
 import com.wiryadev.binar_movie.data.local.FakeFavoriteDao
 import com.wiryadev.binar_movie.data.local.db.FavoriteDao
 import com.wiryadev.binar_movie.data.local.entity.MovieEntity
-import com.wiryadev.binar_movie.data.remote.FakeMovieService
+import com.wiryadev.binar_movie.data.remote.FakeMovieRemoteDataSource
 import com.wiryadev.binar_movie.data.remote.Result
-import com.wiryadev.binar_movie.data.remote.movie.MovieService
+import com.wiryadev.binar_movie.data.remote.movie.MovieRemoteDataSource
 import com.wiryadev.binar_movie.data.remote.movie.MoviesPagingSource
 import com.wiryadev.binar_movie.utils.MainCoroutineRule
 import com.wiryadev.binar_movie.utils.MovieDataDummy
@@ -28,7 +28,7 @@ class MovieRepositoryTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule(StandardTestDispatcher())
 
-    private val movieService: MovieService = FakeMovieService()
+    private val remoteDataSource: MovieRemoteDataSource = FakeMovieRemoteDataSource()
     private val favoriteDao: FavoriteDao = FakeFavoriteDao()
 
     private lateinit var repository: MovieRepository
@@ -36,14 +36,14 @@ class MovieRepositoryTest {
     @Before
     fun setUp() {
         repository = MovieRepositoryImpl(
-            movieService = movieService,
+            remoteDataSource = remoteDataSource,
             favoriteDao = favoriteDao,
         )
     }
 
     @Test
     fun `when Load Paging Movies, should return Page contains intended data`() = runTest {
-        val pagingSource = MoviesPagingSource(movieService)
+        val pagingSource = MoviesPagingSource(remoteDataSource)
         val dummy = MovieDataDummy.generateDynamicMovieList(2).movies
         val expected = Page(
             data = dummy,

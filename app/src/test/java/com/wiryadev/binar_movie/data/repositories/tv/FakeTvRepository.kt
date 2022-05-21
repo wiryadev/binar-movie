@@ -8,7 +8,7 @@ import androidx.paging.liveData
 import com.wiryadev.binar_movie.data.local.entity.TvEntity
 import com.wiryadev.binar_movie.data.remote.Result
 import com.wiryadev.binar_movie.data.remote.tv.TvPagingSource
-import com.wiryadev.binar_movie.data.remote.tv.TvService
+import com.wiryadev.binar_movie.data.remote.tv.TvRemoteDataSource
 import com.wiryadev.binar_movie.data.remote.tv.dto.DetailTvResponse
 import com.wiryadev.binar_movie.data.remote.tv.dto.TvDto
 import com.wiryadev.binar_movie.utils.TvDataDummy
@@ -20,7 +20,7 @@ class FakeTvRepository : TvRepository {
 
     private val favoriteTvList = mutableListOf<TvEntity>()
 
-    private val tvService = mock<TvService>()
+    private val remoteDataSource = mock<TvRemoteDataSource>()
 
     override fun discoverTvShows(): LiveData<PagingData<TvDto>> {
         return Pager(
@@ -28,7 +28,7 @@ class FakeTvRepository : TvRepository {
                 pageSize = 5
             ),
             pagingSourceFactory = {
-                TvPagingSource(tvService = tvService)
+                TvPagingSource(remoteDataSource = remoteDataSource)
             }
         ).liveData
     }

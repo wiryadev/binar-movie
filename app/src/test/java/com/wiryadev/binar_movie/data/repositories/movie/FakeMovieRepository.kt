@@ -7,7 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.wiryadev.binar_movie.data.local.entity.MovieEntity
 import com.wiryadev.binar_movie.data.remote.Result
-import com.wiryadev.binar_movie.data.remote.movie.MovieService
+import com.wiryadev.binar_movie.data.remote.movie.MovieRemoteDataSource
 import com.wiryadev.binar_movie.data.remote.movie.MoviesPagingSource
 import com.wiryadev.binar_movie.data.remote.movie.dto.DetailMovieResponse
 import com.wiryadev.binar_movie.data.remote.movie.dto.MovieDto
@@ -20,7 +20,7 @@ class FakeMovieRepository : MovieRepository {
 
     private val favoriteMovieList = mutableListOf<MovieEntity>()
 
-    private val movieService = mock<MovieService>()
+    private val remoteDataSource = mock<MovieRemoteDataSource>()
 
     override fun discoverMovies(): LiveData<PagingData<MovieDto>> {
         return Pager(
@@ -28,7 +28,7 @@ class FakeMovieRepository : MovieRepository {
                 pageSize = 5
             ),
             pagingSourceFactory = {
-                MoviesPagingSource(movieService = movieService)
+                MoviesPagingSource(remoteDataSource = remoteDataSource)
             }
         ).liveData
     }

@@ -4,9 +4,10 @@ import androidx.paging.PagingSource
 import com.wiryadev.binar_movie.data.local.FakeFavoriteDao
 import com.wiryadev.binar_movie.data.local.db.FavoriteDao
 import com.wiryadev.binar_movie.data.local.entity.TvEntity
-import com.wiryadev.binar_movie.data.remote.FakeTvService
+import com.wiryadev.binar_movie.data.remote.FakeTvRemoteDataSource
 import com.wiryadev.binar_movie.data.remote.Result
 import com.wiryadev.binar_movie.data.remote.tv.TvPagingSource
+import com.wiryadev.binar_movie.data.remote.tv.TvRemoteDataSource
 import com.wiryadev.binar_movie.data.remote.tv.TvService
 import com.wiryadev.binar_movie.utils.MainCoroutineRule
 import com.wiryadev.binar_movie.utils.TvDataDummy
@@ -27,7 +28,7 @@ class TvRepositoryTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule(StandardTestDispatcher())
 
-    private val tvService: TvService = FakeTvService()
+    private val remoteDataSource: TvRemoteDataSource = FakeTvRemoteDataSource()
     private val favoriteDao: FavoriteDao = FakeFavoriteDao()
 
     private lateinit var repository: TvRepository
@@ -35,14 +36,14 @@ class TvRepositoryTest {
     @Before
     fun setUp() {
         repository = TvRepositoryImpl(
-            tvService = tvService,
+            remoteDataSource = remoteDataSource,
             favoriteDao = favoriteDao,
         )
     }
 
     @Test
     fun `when Load Paging Tvs, should return Page contains intended data`() = runTest {
-        val pagingSource = TvPagingSource(tvService)
+        val pagingSource = TvPagingSource(remoteDataSource)
         val dummy = TvDataDummy.generateDynamicTvList(2).tvShows
         val expected = PagingSource.LoadResult.Page(
             data = dummy,
