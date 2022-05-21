@@ -1,14 +1,13 @@
 package com.wiryadev.binar_movie.data.repositories.tv
 
 import androidx.paging.PagingSource
-import com.wiryadev.binar_movie.data.local.FakeFavoriteDao
-import com.wiryadev.binar_movie.data.local.db.FavoriteDao
+import com.wiryadev.binar_movie.data.local.FakeFavoriteLocalDataSource
+import com.wiryadev.binar_movie.data.local.FavoriteLocalDataSource
 import com.wiryadev.binar_movie.data.local.entity.TvEntity
 import com.wiryadev.binar_movie.data.remote.FakeTvRemoteDataSource
 import com.wiryadev.binar_movie.data.remote.Result
 import com.wiryadev.binar_movie.data.remote.tv.TvPagingSource
 import com.wiryadev.binar_movie.data.remote.tv.TvRemoteDataSource
-import com.wiryadev.binar_movie.data.remote.tv.TvService
 import com.wiryadev.binar_movie.utils.MainCoroutineRule
 import com.wiryadev.binar_movie.utils.TvDataDummy
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,7 +28,7 @@ class TvRepositoryTest {
     var mainCoroutineRule = MainCoroutineRule(StandardTestDispatcher())
 
     private val remoteDataSource: TvRemoteDataSource = FakeTvRemoteDataSource()
-    private val favoriteDao: FavoriteDao = FakeFavoriteDao()
+    private val localDataSource: FavoriteLocalDataSource = FakeFavoriteLocalDataSource()
 
     private lateinit var repository: TvRepository
 
@@ -37,7 +36,7 @@ class TvRepositoryTest {
     fun setUp() {
         repository = TvRepositoryImpl(
             remoteDataSource = remoteDataSource,
-            favoriteDao = favoriteDao,
+            localDataSource = localDataSource,
         )
     }
 

@@ -1,7 +1,7 @@
 package com.wiryadev.binar_movie.data.repositories.user
 
-import com.wiryadev.binar_movie.data.local.FakeUserDao
-import com.wiryadev.binar_movie.data.local.db.UserDao
+import com.wiryadev.binar_movie.data.local.FakeUserLocalDataSource
+import com.wiryadev.binar_movie.data.local.UserLocalDataSource
 import com.wiryadev.binar_movie.data.preference.AuthPreference
 import com.wiryadev.binar_movie.data.preference.FakeAuthPreference
 import com.wiryadev.binar_movie.data.remote.Result
@@ -26,7 +26,7 @@ class UserRepositoryTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule(StandardTestDispatcher())
 
-    private val userDao: UserDao = FakeUserDao()
+    private val localDataSource: UserLocalDataSource = FakeUserLocalDataSource()
     private val preference: AuthPreference = FakeAuthPreference()
 
     private lateinit var repository: UserRepository
@@ -34,7 +34,7 @@ class UserRepositoryTest {
     @Before
     fun setUp() {
         repository = UserRepositoryImpl(
-            userDao = userDao,
+            localDataSource = localDataSource,
             preference = preference
         )
     }

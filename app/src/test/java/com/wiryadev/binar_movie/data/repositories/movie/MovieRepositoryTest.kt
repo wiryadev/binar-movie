@@ -2,8 +2,8 @@ package com.wiryadev.binar_movie.data.repositories.movie
 
 import androidx.paging.PagingSource.LoadParams.Refresh
 import androidx.paging.PagingSource.LoadResult.Page
-import com.wiryadev.binar_movie.data.local.FakeFavoriteDao
-import com.wiryadev.binar_movie.data.local.db.FavoriteDao
+import com.wiryadev.binar_movie.data.local.FakeFavoriteLocalDataSource
+import com.wiryadev.binar_movie.data.local.FavoriteLocalDataSource
 import com.wiryadev.binar_movie.data.local.entity.MovieEntity
 import com.wiryadev.binar_movie.data.remote.FakeMovieRemoteDataSource
 import com.wiryadev.binar_movie.data.remote.Result
@@ -29,7 +29,7 @@ class MovieRepositoryTest {
     var mainCoroutineRule = MainCoroutineRule(StandardTestDispatcher())
 
     private val remoteDataSource: MovieRemoteDataSource = FakeMovieRemoteDataSource()
-    private val favoriteDao: FavoriteDao = FakeFavoriteDao()
+    private val localDataSource: FavoriteLocalDataSource = FakeFavoriteLocalDataSource()
 
     private lateinit var repository: MovieRepository
 
@@ -37,7 +37,7 @@ class MovieRepositoryTest {
     fun setUp() {
         repository = MovieRepositoryImpl(
             remoteDataSource = remoteDataSource,
-            favoriteDao = favoriteDao,
+            localDataSource = localDataSource,
         )
     }
 

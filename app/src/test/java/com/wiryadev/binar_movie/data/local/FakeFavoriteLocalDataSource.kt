@@ -1,6 +1,5 @@
 package com.wiryadev.binar_movie.data.local
 
-import com.wiryadev.binar_movie.data.local.db.FavoriteDao
 import com.wiryadev.binar_movie.data.local.entity.MovieEntity
 import com.wiryadev.binar_movie.data.local.entity.TvEntity
 import com.wiryadev.binar_movie.utils.MovieDataDummy
@@ -8,7 +7,7 @@ import com.wiryadev.binar_movie.utils.TvDataDummy
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-class FakeFavoriteDao : FavoriteDao {
+class FakeFavoriteLocalDataSource : FavoriteLocalDataSource {
 
     private val favoriteMovieList = mutableListOf<MovieEntity>()
     private val favoriteTvList = mutableListOf<TvEntity>()

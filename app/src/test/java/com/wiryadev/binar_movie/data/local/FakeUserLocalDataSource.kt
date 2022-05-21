@@ -1,12 +1,11 @@
 package com.wiryadev.binar_movie.data.local
 
-import com.wiryadev.binar_movie.data.local.db.UserDao
 import com.wiryadev.binar_movie.data.local.entity.UserEntity
 import com.wiryadev.binar_movie.utils.UserDataDummy
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-class FakeUserDao : UserDao {
+class FakeUserLocalDataSource : UserLocalDataSource {
 
     private val users = mutableListOf(
         UserDataDummy.userEntity
