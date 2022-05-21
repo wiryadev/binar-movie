@@ -3,7 +3,7 @@ package com.wiryadev.binar_movie.data.repositories.user
 import com.wiryadev.binar_movie.data.local.UserLocalDataSource
 import com.wiryadev.binar_movie.data.local.entity.UserEntity
 import com.wiryadev.binar_movie.data.preference.AuthModel
-import com.wiryadev.binar_movie.data.preference.AuthPreference
+import com.wiryadev.binar_movie.data.preference.UserPreferenceDataStore
 import com.wiryadev.binar_movie.data.remote.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
     private val localDataSource: UserLocalDataSource,
-    private val preference: AuthPreference,
+    private val preferenceDataStore: UserPreferenceDataStore,
 ) : UserRepository {
 
     override suspend fun register(user: UserEntity) {
@@ -31,15 +31,15 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUserSession(): Flow<AuthModel> {
-        return preference.getUserSession()
+        return preferenceDataStore.getUserSession()
     }
 
     override suspend fun saveUserSession(user: AuthModel) {
-        preference.saveUserSession(user = user)
+        preferenceDataStore.saveUserSession(user = user)
     }
 
     override suspend fun deleteUserSession() {
-        preference.deleteUserSession()
+        preferenceDataStore.deleteUserSession()
     }
 
     override fun getUser(email: String): Flow<UserEntity> {

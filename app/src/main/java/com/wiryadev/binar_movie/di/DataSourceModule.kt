@@ -4,6 +4,8 @@ import com.wiryadev.binar_movie.data.local.FavoriteLocalDataSource
 import com.wiryadev.binar_movie.data.local.FavoriteLocalDataSourceImpl
 import com.wiryadev.binar_movie.data.local.UserLocalDataSource
 import com.wiryadev.binar_movie.data.local.UserLocalDataSourceImpl
+import com.wiryadev.binar_movie.data.preference.UserPreferenceDataStore
+import com.wiryadev.binar_movie.data.preference.UserPreferenceDataStoreImpl
 import com.wiryadev.binar_movie.data.remote.movie.MovieRemoteDataSource
 import com.wiryadev.binar_movie.data.remote.movie.MovieRemoteDataSourceImpl
 import com.wiryadev.binar_movie.data.remote.tv.TvRemoteDataSource
@@ -41,5 +43,11 @@ abstract class DataSourceModule {
     abstract fun bindsUserLocalDataSource(
         userLocalDataSourceImpl: UserLocalDataSourceImpl
     ): UserLocalDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindsUserPreferenceDataStore(
+        userPreferenceDataStoreImpl: UserPreferenceDataStoreImpl
+    ): UserPreferenceDataStore
 
 }
