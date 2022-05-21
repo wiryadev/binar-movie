@@ -2,10 +2,12 @@ package com.wiryadev.binar_movie.ui.movie.list
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.wiryadev.binar_movie.R
+import com.wiryadev.binar_movie.utils.EspressoIdlingResource
 import com.wiryadev.binar_movie.utils.JsonConverter
 import com.wiryadev.binar_movie.utils.launchFragmentInHiltContainer
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -33,11 +35,13 @@ class MoviesFragmentTest {
     fun setUp() {
         mockWebServer.start(8888)
         hiltRule.inject()
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
     }
 
     @After
     fun tearDown() {
         mockWebServer.shutdown()
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource)
     }
 
     @Test
@@ -49,8 +53,6 @@ class MoviesFragmentTest {
             setBody(JsonConverter.readStringFromFile("discover_movie_success_response.json"))
         }
         mockWebServer.enqueue(mockResponse)
-
-        Thread.sleep(250) // should use EspressoIdlingResource
 
         // check recyclerView
         onView(withId(R.id.rv_movies))

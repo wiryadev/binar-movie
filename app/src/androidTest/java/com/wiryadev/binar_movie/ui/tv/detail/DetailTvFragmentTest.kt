@@ -2,8 +2,10 @@ package com.wiryadev.binar_movie.ui.tv.detail
 
 import androidx.core.os.bundleOf
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
+import com.wiryadev.binar_movie.utils.EspressoIdlingResource
 import com.wiryadev.binar_movie.utils.JsonConverter
 import com.wiryadev.binar_movie.utils.launchFragmentInHiltContainer
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -27,11 +29,13 @@ class DetailTvFragmentTest {
     fun setUp() {
         mockWebServer.start(8888)
         hiltRule.inject()
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
     }
 
     @After
     fun tearDown() {
         mockWebServer.shutdown()
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource)
     }
 
     @Test
@@ -44,8 +48,6 @@ class DetailTvFragmentTest {
             setBody(JsonConverter.readStringFromFile("detail_tv_success_response.json"))
         }
         mockWebServer.enqueue(mockResponse)
-
-        Thread.sleep(250) // should use EspressoIdlingResource
 
         // check poster
         onView(withContentDescription("Poster"))
