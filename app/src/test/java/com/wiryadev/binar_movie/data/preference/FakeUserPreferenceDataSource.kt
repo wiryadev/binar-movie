@@ -3,7 +3,7 @@ package com.wiryadev.binar_movie.data.preference
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-class FakeAuthPreference : AuthPreference {
+class FakeUserPreferenceDataSource : UserPreferenceDataSource {
 
     private var authModel = AuthModel("", "")
 
