@@ -5,7 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
-import com.wiryadev.binar_movie.data.local.db.FavoriteDao
+import com.wiryadev.binar_movie.data.local.FavoriteLocalDataSource
 import com.wiryadev.binar_movie.data.local.entity.TvEntity
 import com.wiryadev.binar_movie.data.remote.Result
 import com.wiryadev.binar_movie.data.remote.tv.TvPagingSource
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 class TvRepositoryImpl @Inject constructor(
     private val remoteDataSource: TvRemoteDataSource,
-    private val favoriteDao: FavoriteDao,
+    private val localDataSource: FavoriteLocalDataSource,
 ) : TvRepository {
 
     override fun discoverTvShows(): LiveData<PagingData<TvDto>> {
@@ -46,19 +46,19 @@ class TvRepositoryImpl @Inject constructor(
     }
 
     override fun getFavoriteTvs(): Flow<List<TvEntity>> {
-        return favoriteDao.getFavoriteTvs()
+        return localDataSource.getFavoriteTvs()
     }
 
     override fun checkFavoriteTv(id: Int): Flow<Int> {
-        return favoriteDao.checkFavoriteTv(id = id)
+        return localDataSource.checkFavoriteTv(id = id)
     }
 
     override suspend fun addFavoriteTv(tv: TvEntity) {
-        favoriteDao.addFavoriteTv(tv = tv)
+        localDataSource.addFavoriteTv(tv = tv)
     }
 
     override suspend fun deleteFavoriteTv(tv: TvEntity) {
-        favoriteDao.deleteFavoriteTv(tv = tv)
+        localDataSource.deleteFavoriteTv(tv = tv)
     }
 
 }
