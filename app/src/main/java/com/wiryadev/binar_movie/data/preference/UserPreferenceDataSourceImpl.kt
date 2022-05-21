@@ -3,9 +3,9 @@ package com.wiryadev.binar_movie.data.preference
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class UserPreferenceDataStoreImpl @Inject constructor(
+class UserPreferenceDataSourceImpl @Inject constructor(
     private val authPreference: AuthPreference
-) : UserPreferenceDataStore {
+) : UserPreferenceDataSource {
 
     override fun getUserSession(): Flow<AuthModel> {
         return authPreference.getUserSession()

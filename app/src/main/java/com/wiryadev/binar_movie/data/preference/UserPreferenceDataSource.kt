@@ -2,7 +2,7 @@ package com.wiryadev.binar_movie.data.preference
 
 import kotlinx.coroutines.flow.Flow
 
-interface UserPreferenceDataStore {
+interface UserPreferenceDataSource {
 
     fun getUserSession(): Flow<AuthModel>
 
