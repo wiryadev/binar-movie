@@ -8,7 +8,7 @@ import androidx.paging.liveData
 import com.wiryadev.binar_movie.data.local.db.FavoriteDao
 import com.wiryadev.binar_movie.data.local.entity.MovieEntity
 import com.wiryadev.binar_movie.data.remote.Result
-import com.wiryadev.binar_movie.data.remote.movie.MovieService
+import com.wiryadev.binar_movie.data.remote.movie.MovieRemoteDataSource
 import com.wiryadev.binar_movie.data.remote.movie.MoviesPagingSource
 import com.wiryadev.binar_movie.data.remote.movie.dto.DetailMovieResponse
 import com.wiryadev.binar_movie.data.remote.movie.dto.MovieDto
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
-    private val movieService: MovieService,
+    private val remoteDataSource: MovieRemoteDataSource,
     private val favoriteDao: FavoriteDao,
 ) : MovieRepository {
 
@@ -29,7 +29,7 @@ class MovieRepositoryImpl @Inject constructor(
                 pageSize = PAGING_PAGE_SIZE
             ),
             pagingSourceFactory = {
-                MoviesPagingSource(movieService = movieService)
+                MoviesPagingSource(remoteDataSource = remoteDataSource)
             }
         ).liveData
     }
@@ -37,7 +37,7 @@ class MovieRepositoryImpl @Inject constructor(
     override fun getMovieDetail(movieId: Int): Flow<Result<DetailMovieResponse>> {
         return flow {
             try {
-                val response = movieService.getMovieDetail(movieId = movieId)
+                val response = remoteDataSource.getMovieDetail(movieId = movieId)
                 emit(Result.Success(data = response))
             } catch (e: Exception) {
                 emit(Result.Error(exception = e))

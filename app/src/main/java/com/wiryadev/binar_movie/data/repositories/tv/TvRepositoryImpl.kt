@@ -9,7 +9,7 @@ import com.wiryadev.binar_movie.data.local.db.FavoriteDao
 import com.wiryadev.binar_movie.data.local.entity.TvEntity
 import com.wiryadev.binar_movie.data.remote.Result
 import com.wiryadev.binar_movie.data.remote.tv.TvPagingSource
-import com.wiryadev.binar_movie.data.remote.tv.TvService
+import com.wiryadev.binar_movie.data.remote.tv.TvRemoteDataSource
 import com.wiryadev.binar_movie.data.remote.tv.dto.DetailTvResponse
 import com.wiryadev.binar_movie.data.remote.tv.dto.TvDto
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class TvRepositoryImpl @Inject constructor(
-    private val tvService: TvService,
+    private val remoteDataSource: TvRemoteDataSource,
     private val favoriteDao: FavoriteDao,
 ) : TvRepository {
 
@@ -29,7 +29,7 @@ class TvRepositoryImpl @Inject constructor(
                 pageSize = PAGING_PAGE_SIZE
             ),
             pagingSourceFactory = {
-                TvPagingSource(tvService = tvService)
+                TvPagingSource(remoteDataSource = remoteDataSource)
             }
         ).liveData
     }
@@ -37,7 +37,7 @@ class TvRepositoryImpl @Inject constructor(
     override fun getTvShowDetail(tvId: Int): Flow<Result<DetailTvResponse>> {
         return flow {
             try {
-                val response = tvService.getTvDetail(tvId = tvId)
+                val response = remoteDataSource.getTvDetail(tvId = tvId)
                 emit(Result.Success(data = response))
             } catch (e: Exception) {
                 emit(Result.Error(exception = e))
