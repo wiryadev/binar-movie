@@ -1,10 +1,8 @@
 package com.wiryadev.binar_movie.data.repositories.movie
 
-import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.liveData
 import com.wiryadev.binar_movie.data.local.FavoriteLocalDataSource
 import com.wiryadev.binar_movie.data.local.entity.MovieEntity
 import com.wiryadev.binar_movie.data.remote.Result
@@ -23,7 +21,7 @@ class MovieRepositoryImpl @Inject constructor(
     private val localDataSource: FavoriteLocalDataSource,
 ) : MovieRepository {
 
-    override fun discoverMovies(): LiveData<PagingData<MovieDto>> {
+    override fun discoverMovies(): Flow<PagingData<MovieDto>> {
         return Pager(
             config = PagingConfig(
                 pageSize = PAGING_PAGE_SIZE
@@ -31,7 +29,7 @@ class MovieRepositoryImpl @Inject constructor(
             pagingSourceFactory = {
                 MoviesPagingSource(remoteDataSource = remoteDataSource)
             }
-        ).liveData
+        ).flow
     }
 
     override fun getMovieDetail(movieId: Int): Flow<Result<DetailMovieResponse>> {
