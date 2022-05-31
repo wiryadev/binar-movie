@@ -3,6 +3,9 @@ package com.wiryadev.binar_movie.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.BookmarkAdded
+import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,19 +30,43 @@ fun GenericDetailScreen(
     dateData: String,
     tagline: String?,
     overview: String?,
+    isFavorite: Boolean,
+    onFabClicked: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier.padding(16.dp)
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
     ) {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            PosterWithRating(posterPath = posterPath, rating = rating)
-            DetailHeader(title = title, genres = genres, dateLabel = dateLabel, dateData = dateData)
+        Column {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                PosterWithRating(posterPath = posterPath, rating = rating)
+                DetailHeader(
+                    title = title,
+                    genres = genres,
+                    dateLabel = dateLabel,
+                    dateData = dateData
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            TaglineAndOverview(tagline = tagline, overview = overview)
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        TaglineAndOverview(tagline = tagline, overview = overview)
+        FloatingActionButton(
+            onClick = { onFabClicked.invoke(isFavorite) },
+            modifier = Modifier.align(Alignment.BottomEnd)
+        ) {
+            Image(
+                imageVector = if (isFavorite) {
+                    Icons.Rounded.BookmarkAdded
+                } else {
+                    Icons.Rounded.BookmarkBorder
+                },
+                contentDescription = stringResource(id = R.string.favorite_button)
+            )
+        }
     }
 }
 

@@ -5,28 +5,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import coil.load
-import coil.transform.RoundedCornersTransformation
-import com.wiryadev.binar_movie.BuildConfig
+import com.google.android.material.composethemeadapter3.Mdc3Theme
 import com.wiryadev.binar_movie.R
 import com.wiryadev.binar_movie.data.remote.movie.dto.DetailMovieResponse
-import com.wiryadev.binar_movie.databinding.FragmentDetailBinding
 import com.wiryadev.binar_movie.ui.MainActivity
-import com.wiryadev.binar_movie.ui.createImagePlaceholderDrawable
-import com.wiryadev.binar_movie.ui.dpToPx
-import com.wiryadev.binar_movie.ui.showSnackbar
+import com.wiryadev.binar_movie.ui.components.GenericDetailScreen
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalMaterial3Api
 @AndroidEntryPoint
 class DetailMovieFragment : Fragment() {
-
-    private var _binding: FragmentDetailBinding? = null
-    private val binding get() = _binding!!
 
     private val args: DetailMovieFragmentArgs by navArgs()
     private val viewModel: DetailMovieViewModel by viewModels()
@@ -46,70 +48,58 @@ class DetailMovieFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDetailBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         viewModel.getDetail(args.movieId)
         viewModel.checkIsFavorite(args.movieId)
 
-        with(binding) {
-            viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
-                progressBar.isVisible = uiState.isLoading
+        return ComposeView(requireContext()).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
 
-                uiState.errorMessage?.let {
-                    root.showSnackbar(it)
+            setContent {
+                val uiState by viewModel.uiState.collectAsState()
+
+                Mdc3Theme {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
+                        if (uiState.isLoading) {
+                            CircularProgressIndicator()
+                        }
+                        uiState.movie?.let { movie ->
+                            movieDetail = movie
+
+                            if (activity is MainActivity) {
+                                (activity as MainActivity).supportActionBar?.title =
+                                    movie.originalTitle
+                            }
+
+                            GenericDetailScreen(
+                                title = movie.title,
+                                posterPath = movie.posterPath,
+                                genres = movie.genres.map { it.name },
+                                rating = movie.voteAverage.toString(),
+                                dateLabel = stringResource(id = R.string.release_date),
+                                dateData = movie.releaseDate,
+                                tagline = movie.tagline,
+                                overview = movie.overview,
+                                isFavorite = uiState.isFavorite,
+                                onFabClicked = ::onFabClicked,
+                            )
+                        }
+                    }
                 }
-
-                uiState.movie?.let { movie ->
-                    movieDetail = movie
-                    tvLabelDate.text = getString(R.string.release_date)
-                    if (activity is MainActivity) {
-                        (activity as MainActivity).supportActionBar?.title = movie.originalTitle
-                    }
-
-                    ivDetailPoster.load("${BuildConfig.BASE_IMAGE_URL}${movie.posterPath}") {
-                        transformations(RoundedCornersTransformation(dpToPx(16)))
-                        placeholder(createImagePlaceholderDrawable(requireContext()))
-                    }
-                    tvDetailScore.text = movie.voteAverage.toString()
-                    tvDetailTitle.text = movie.title
-                    val genres = mutableListOf<String>()
-                    for (genre in movie.genres) {
-                        genres.add(genre.name)
-                    }
-                    tvDetailGenre.text = genres.joinToString(separator = ", ")
-                    tvDetailTagline.text = movie.tagline
-                    tvDetailOverview.text = movie.overview
-                    tvDetailDate.text = movie.releaseDate
-                }
-
-                setButtonState(uiState.isFavorite)
             }
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    private fun setButtonState(isFavorite: Boolean) {
-        binding.btnFav.apply {
-            if (isFavorite) {
-                setOnClickListener {
-                    movieDetail?.let { movie -> viewModel.deleteFavoriteMovie(movie) }
-                }
-                setImageResource(R.drawable.ic_round_bookmark_added_24)
-            } else {
-                setOnClickListener {
-                    movieDetail?.let { movie -> viewModel.addFavoriteMovie(movie) }
-                }
-                setImageResource(R.drawable.ic_round_bookmark_border_24)
-            }
+    private fun onFabClicked(isFavorite: Boolean) {
+        if (isFavorite) {
+            movieDetail?.let { movie -> viewModel.deleteFavoriteMovie(movie) }
+        } else {
+            movieDetail?.let { movie -> viewModel.addFavoriteMovie(movie) }
         }
     }
-
 }

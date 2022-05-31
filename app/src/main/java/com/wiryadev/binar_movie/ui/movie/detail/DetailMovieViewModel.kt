@@ -1,17 +1,13 @@
 package com.wiryadev.binar_movie.ui.movie.detail
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.wiryadev.binar_movie.data.local.entity.MovieEntity
 import com.wiryadev.binar_movie.data.remote.Result
 import com.wiryadev.binar_movie.data.remote.movie.dto.DetailMovieResponse
 import com.wiryadev.binar_movie.data.repositories.movie.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,7 +18,7 @@ class DetailMovieViewModel @Inject constructor(
 
     private val _uiState: MutableStateFlow<DetailMovieUiState> =
         MutableStateFlow(DetailMovieUiState())
-    val uiState: LiveData<DetailMovieUiState> get() = _uiState.asLiveData()
+    val uiState: StateFlow<DetailMovieUiState> get() = _uiState.asStateFlow()
 
     fun getDetail(movieId: Int) {
         _uiState.update {
