@@ -6,9 +6,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.wiryadev.binar_movie.BuildConfig
+import com.wiryadev.binar_movie.R
 import com.wiryadev.binar_movie.data.remote.movie.dto.MovieDto
 import com.wiryadev.binar_movie.data.remote.tv.dto.TvDto
 
@@ -72,7 +74,7 @@ private fun GenericCard(
         Row {
             Image(
                 painter = rememberAsyncImagePainter(model = posterUrl),
-                contentDescription = "",
+                contentDescription = stringResource(id = R.string.poster),
                 modifier = Modifier
                     .width(100.dp)
                     .height(160.dp),
