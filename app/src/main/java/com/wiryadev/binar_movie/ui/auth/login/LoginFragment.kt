@@ -50,6 +50,7 @@ class LoginFragment : Fragment() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
+
             setContent {
                 val uiState by viewModel.uiState.collectAsState()
 
@@ -141,7 +142,7 @@ class LoginFragment : Fragment() {
                                     onClick = ::navigateToRegisterScreen,
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
-                                    Text(text = stringResource(id = R.string.belum_punya_akun))
+                                    Text(text = stringResource(id = R.string.dont_have_account))
                                 }
                             }
                         }

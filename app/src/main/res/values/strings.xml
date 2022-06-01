@@ -16,25 +16,19 @@
     <string name="show_password">Show Password</string>
     <string name="hide_password">Hide Password</string>
     <string name="binar_image">Binar Image</string>
-    <string name="belum_punya_akun">Belum punya akun?</string>
+    <string name="dont_have_account">Don\'t have an account yet?</string>
+
     <string name="username">Username</string>
     <string name="register">Register</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="add_new_note">Add New Note</string>
-    <string name="update_note">Update Note</string>
-    <string name="delete_note">Delete Note</string>
     <string name="update_success">Data updated successfully</string>
     <string name="logout">Logout</string>
     <string name="home">Home</string>
-    <string name="delete_this_note">Delete this note</string>
-    <string name="edit_this_note">Edit this note</string>
     <string name="registration_done">Registration Done</string>
     <string name="registration_success">Registration Success</string>
     <string name="registration_success_subtitle">Now you can login to use our app ~~~</string>
     <string name="new_note">New Note</string>
-    <string name="create">Create</string>
     <string name="update">Update</string>
-    <string name="delete">Delete</string>
     <string name="date">Date</string>
     <string name="logbook">Logbook</string>
     <string name="hi_username">Hi, %s</string>
