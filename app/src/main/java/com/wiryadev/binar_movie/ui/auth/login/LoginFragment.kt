@@ -9,6 +9,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -33,6 +34,8 @@ import com.wiryadev.binar_movie.ui.components.EmailTextField
 import com.wiryadev.binar_movie.ui.components.PasswordState
 import com.wiryadev.binar_movie.ui.components.PasswordTextField
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 
 @ExperimentalMaterial3Api
 @AndroidEntryPoint
@@ -56,6 +59,24 @@ class LoginFragment : Fragment() {
 
                 if (uiState.isLoggedIn) {
                     navigateToHomeScreen()
+                }
+
+                val snackbarHostState = remember {
+                    SnackbarHostState()
+                }
+
+                val channel = remember { Channel<String>(Channel.CONFLATED) }
+                LaunchedEffect(channel) {
+                    channel.receiveAsFlow().collect { message ->
+                        snackbarHostState.showSnackbar(
+                            message = message,
+                            actionLabel = "OK"
+                        )
+                    }
+                }
+
+                uiState.errorMessage?.let {
+                    channel.trySend(it)
                 }
 
                 Mdc3Theme {

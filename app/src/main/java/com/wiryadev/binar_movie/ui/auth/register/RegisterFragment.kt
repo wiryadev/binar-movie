@@ -8,6 +8,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -31,6 +32,8 @@ import com.wiryadev.binar_movie.ui.components.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 
 @ExperimentalMaterial3Api
 @FlowPreview
@@ -58,9 +61,33 @@ class RegisterFragment : Fragment() {
                     navigateToRegisterSuccessScreen()
                 }
 
+                // decouple snackbar host state from scaffold state for demo purposes
+                // this state, channel and flow is for demo purposes to demonstrate business logic layer
+                val snackbarHostState = remember {
+                    SnackbarHostState()
+                }
+
+                // we allow only one snackbar to be in the queue here, hence conflated
+                val channel = remember { Channel<String>(Channel.CONFLATED) }
+                LaunchedEffect(channel) {
+                    channel.receiveAsFlow().collect { message ->
+                        snackbarHostState.showSnackbar(
+                            message = message,
+                            actionLabel = "OK"
+                        )
+                    }
+                }
+
+                uiState.errorMessage?.let {
+                    channel.trySend(it)
+                }
+
                 Mdc3Theme {
                     Scaffold(
-                        modifier = Modifier.padding(16.dp)
+                        modifier = Modifier.padding(16.dp),
+                        snackbarHost = {
+                            SnackbarHost(hostState = snackbarHostState)
+                        }
                     ) { contentPadding ->
                         LazyColumn(
                             contentPadding = contentPadding,
