@@ -1,13 +1,11 @@
 package com.wiryadev.binar_movie.ui.auth.register
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
+import app.cash.turbine.test
 import com.wiryadev.binar_movie.data.repositories.user.UserRepository
 import com.wiryadev.binar_movie.utils.MainCoroutineRule
 import com.wiryadev.binar_movie.utils.UserDataDummy
-import com.wiryadev.binar_movie.utils.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBe
@@ -21,7 +19,6 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
-@FlowPreview
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 class RegisterViewModelTest {
@@ -35,29 +32,41 @@ class RegisterViewModelTest {
     private val repository: UserRepository = mock()
     private lateinit var viewModel: RegisterViewModel
 
-    private val registerUiState = RegisterUiState(
-        isLoading = false,
-        isSuccess = true,
-        errorMessage = null,
-    )
-
     @Before
     fun setUp() {
         viewModel = RegisterViewModel(repository)
     }
 
     @Test
+    fun `when uiState is initialized, then Loading is false`() = runTest {
+        viewModel.uiState.test {
+            awaitItem().isLoading shouldBeEqualTo false
+        }
+    }
+
+    @Test
+    fun `when uiState is initialized, then Success is false`() = runTest {
+        viewModel.uiState.test {
+            awaitItem().isSuccess shouldBeEqualTo false
+        }
+    }
+
+    @Test
+    fun `when uiState is initialized, then Error Message is null`() = runTest {
+        viewModel.uiState.test {
+            awaitItem().errorMessage shouldBeEqualTo null
+        }
+    }
+
+    @Test
     fun `when Register success, should return True`() = runTest {
-        val expected = MutableLiveData<RegisterUiState>()
-        expected.value = registerUiState
-
         viewModel.register(UserDataDummy.userEntity)
-        val actual = viewModel.uiState.getOrAwaitValue()
-
         verify(repository, times(1)).register(UserDataDummy.userEntity)
+
+        val actual = viewModel.uiState.value
         actual shouldNotBe null
-        actual shouldBeEqualTo expected.value
         actual.isSuccess shouldBeEqualTo true
+        actual.errorMessage shouldBeEqualTo null
     }
 
     @Test
@@ -65,8 +74,8 @@ class RegisterViewModelTest {
         whenever(repository.register(UserDataDummy.userEntity))
             .thenThrow(RuntimeException("Registration Failed"))
         viewModel.register(UserDataDummy.userEntity)
-        val actual = viewModel.uiState.getOrAwaitValue()
 
+        val actual = viewModel.uiState.value
         actual shouldNotBe null
         actual.isSuccess shouldBeEqualTo false
         actual.errorMessage shouldBeEqualTo "Registration Failed"

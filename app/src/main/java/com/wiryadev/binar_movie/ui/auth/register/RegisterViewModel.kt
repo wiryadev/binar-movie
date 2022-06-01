@@ -5,8 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.wiryadev.binar_movie.data.local.entity.UserEntity
 import com.wiryadev.binar_movie.data.repositories.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,8 +12,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
     private val userRepository: UserRepository
