@@ -1,6 +1,5 @@
 package com.wiryadev.binar_movie.ui.auth.register
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -24,7 +23,7 @@ class RegisterViewModel @Inject constructor(
     val queryChannel = MutableStateFlow("")
 
     private val _uiState: MutableStateFlow<RegisterUiState> = MutableStateFlow(RegisterUiState())
-    val uiState: LiveData<RegisterUiState> get() = _uiState.asLiveData()
+    val uiState: StateFlow<RegisterUiState> get() = _uiState.asStateFlow()
 
     val checkUserExist = queryChannel
         .debounce(200)
