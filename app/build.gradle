@@ -81,6 +81,7 @@ dependencies {
     implementation "io.coil-kt:coil-compose:2.1.0"
     implementation "androidx.paging:paging-compose:1.0.0-alpha14"
     implementation "com.google.android.material:compose-theme-adapter-3:1.0.10"
+    implementation "com.google.accompanist:accompanist-placeholder-material:0.24.9-beta"
 
     // Lifecycle
     def lifecycle_version = "2.4.1"
@@ -95,7 +96,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     // Networking
-    def okhttp_version = "4.9.3"
+    def okhttp_version = "5.0.0-alpha.7"
     def chucker_version = "3.5.2"
     def retrofit_version = "2.9.0"
     def moshi_version = "1.13.0"
