@@ -88,12 +88,10 @@ class LoginFragment : Fragment() {
                                 Column(modifier = Modifier.fillMaxWidth()) {
                                     val focusRequester = remember { FocusRequester() }
                                     val emailState = remember {
-                                        EmailState(
-                                            args.email ?: ""
-                                        )
+                                        EmailState(args.email ?: "")
                                     }
                                     EmailTextField(
-                                        emailState,
+                                        emailState = emailState,
                                         onImeAction = { focusRequester.requestFocus() }
                                     )
 
@@ -125,7 +123,9 @@ class LoginFragment : Fragment() {
                                                 top = 16.dp,
                                                 bottom = 8.dp,
                                             ),
-                                        enabled = emailState.isValid && passwordState.isValid && !uiState.isLoading
+                                        enabled = emailState.isValid
+                                                && passwordState.isValid
+                                                && !uiState.isLoading
                                     ) {
                                         if (uiState.isLoading) {
                                             LinearProgressIndicator()
