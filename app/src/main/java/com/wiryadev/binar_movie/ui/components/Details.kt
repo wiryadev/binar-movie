@@ -1,5 +1,7 @@
 package com.wiryadev.binar_movie.ui.components
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -58,14 +60,22 @@ fun GenericDetailScreen(
             onClick = { onFabClicked.invoke(isFavorite) },
             modifier = Modifier.align(Alignment.BottomEnd)
         ) {
-            Image(
-                imageVector = if (isFavorite) {
-                    Icons.Rounded.BookmarkAdded
+            Crossfade(
+                targetState = isFavorite,
+                animationSpec = spring(),
+            ) { isFavorite ->
+                if (isFavorite) {
+                    Icon(
+                        imageVector = Icons.Rounded.BookmarkAdded,
+                        contentDescription = stringResource(id = R.string.favorite_button)
+                    )
                 } else {
-                    Icons.Rounded.BookmarkBorder
-                },
-                contentDescription = stringResource(id = R.string.favorite_button)
-            )
+                    Icon(
+                        imageVector = Icons.Rounded.BookmarkBorder,
+                        stringResource(id = R.string.favorite_button),
+                    )
+                }
+            }
         }
     }
 }
